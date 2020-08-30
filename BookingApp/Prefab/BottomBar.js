@@ -6,9 +6,10 @@ import HomeScreen from '../Screen/HomeScreen';
 import FacilityScreen from '../Screen/FacilityScreen';
 import EventScreen from '../Screen/EventScreen';
 import OfferScreen from '../Screen/OfferScreen';
-import { Dimensions, StyleSheet,useColorScheme,Appearance} from 'react-native'
+import { Dimensions, StyleSheet,useColorScheme,Appearance, View} from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { appTheme, colors } from '../constants/AppColors';
 // import { AppearanceProvider, useColorScheme as appcolorScheme } from 'react-native-appearance';
 
 export default function BottomBar() {
@@ -37,26 +38,25 @@ export default function BottomBar() {
         // global.appTheme=(colorScheme=='dark')?appDarkTheme:appLightTheme;
         return (
             // <AppearanceProvider>
-            <NavigationContainer theme={ colorScheme=='dark'?appDarkTheme:appLightTheme} style={styles.NavigationBar}>
+            // <NavigationContainer theme={ colorScheme=='dark'?appDarkTheme:appLightTheme} style={styles.NavigationBar}>
+            <NavigationContainer>
+
             <Tab.Navigator
             initialRouteName="Home"
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
                     let iconName;
-                    
                     if (route.name === 'Home') {
-                        iconName = focused
-                        ? 'ios-home'
-                        : 'ios-home';
-                        return <Ionicons name={iconName} size={size} color={color} />;
+                        iconName = focused? 'home':'home';
+                        return <MaterialIcons name={iconName} size={size} color={color} />;
                     } else if (route.name === 'Facilty') {
                         iconName = focused ? 'ios-list-box' : 'ios-list';
                         return <Ionicons name={iconName} size={size} color={color} />;
-                    }else if (route.name === 'Events') {
-                        iconName = focused ? 'event' : 'event';
+                    }else if (route.name === 'Favourites') {
+                        iconName = focused ? 'star' : 'star-border';
                         return <MaterialIcons name={iconName} size={size} color={color} />;
-                    }else if (route.name === 'Offers') {
-                        iconName = focused ? 'local-offer' : 'local-offer';
+                    }else if (route.name === 'My Account') {
+                        iconName = focused ? 'person' : 'person-outline';
                         return <MaterialIcons name={iconName} size={size} color={color} />;
                     }
                     else if (route.name === 'Messages') {
@@ -68,19 +68,28 @@ export default function BottomBar() {
                 },
             })}
             tabBarOptions={{
-                activeTintColor: '#16e267',
-                inactiveTintColor: 'gray',
+                activeBackgroundColor:colors.sportColor,
+                inactiveBackgroundColor:colors.sportColor,
+                backgroundColor:colors.sportColor,
+                activeTintColor: colors.yellowColor,
+                inactiveTintColor: appTheme.colors.border,
                 labelStyle: {
                     fontSize: 12,
+                    margin:10,paddingBottom:5,
                 },
+                  style: {paddingTop:10,
+                    height: 50,
+                    backgroundColor: colors.sportColor,
+                  },
                 
             }}
             >
-            <Tab.Screen name="Facilty" component={FacilityScreen}/>
-            <Tab.Screen name="Events" component={EventScreen}/>
+
             <Tab.Screen name="Home" component={HomeScreen}/>
-            <Tab.Screen name="Messages" component={HomeScreen}/>
-            <Tab.Screen name="Offers" component={OfferScreen}/>
+            <Tab.Screen name="Facilty" component={FacilityScreen}/>
+            {/* <Tab.Screen name="Events" component={EventScreen}/> */}
+            <Tab.Screen name="Favourites" component={HomeScreen}/>
+            <Tab.Screen name="My Account" component={OfferScreen}/>
             
             </Tab.Navigator> 
             </NavigationContainer>
@@ -90,15 +99,18 @@ export default function BottomBar() {
     }
     const styles = StyleSheet.create({
         NavigationBar:{
-            backgroundColor:'red',
-            shadowColor: "#000",
-            shadowOffset: {
-                width: 0,
-                height: 2,
-            },
-            shadowOpacity: 0.25,
-            shadowRadius: 10,
-            elevation: 5,
+            // backgroundColor:'red',
+            // color:colors.sportColor,
+            // tintColor:colors.sportColor,
+            // backgroundColor:colors.sportColor,
+            // shadowColor: "#000",
+            // shadowOffset: {
+            //     width: 0,
+            //     height: 2,
+            // },
+            // shadowOpacity: 0.25,
+            // shadowRadius: 10,
+            // elevation: 5,
         },
     })
     

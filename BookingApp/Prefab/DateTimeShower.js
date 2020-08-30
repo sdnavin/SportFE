@@ -17,23 +17,16 @@ export default class DateTimeShower extends Component {
         const { date } = this.state;
         return (
             <>
-            <View onPress={onClose}>
-                <TouchableOpacity style={styles.Container} onPress={onClose}>
-                <Text style={{alignSelf:'center',fontSize:18,color:colors.appcolor}}>Done</Text>
-                </TouchableOpacity>
+            <View onPress={onClose(this.state.date)}>
+                {(Platform.OS === 'ios')&&<TouchableOpacity style={styles.Container} onPress={onClose(this.state.date)}>
+                <Text style={{alignSelf:'center',fontSize:18,color:colors.sportColor}}>Done</Text>
+                </TouchableOpacity>}
                 <DateTimePicker
                 value={dateIn}
                 mode={mode}
                 is24Hour={false}
                 display="default"
-                onChange={(e, d) => {
-                    if (Platform.OS === 'ios') {
-                        this.setState({ date: d });
-                        onChange(d);
-                    } else {
-                        onClose(d);
-                    }
-                }}
+                onChange={onChange}
                 
                 style={{ backgroundColor: 'white' }}
                 />

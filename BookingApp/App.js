@@ -39,7 +39,7 @@ export default class App extends React.Component  {
     return (
       <Provider store={store}>
        {this.state.getStarted&&(<PopUpModal title="Start" onDone={this.OnDone.bind(this)}/>)}
-       <Authentication/>
+       {/* <Authentication/> */}
       <BottomBar/>
         </Provider>
         );

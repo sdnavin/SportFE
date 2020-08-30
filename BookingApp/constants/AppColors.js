@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { DefaultTheme,
   DarkTheme, } from '@react-navigation/native';
-import { useColorScheme,div} from 'react-native';
+import { useColorScheme,View} from 'react-native';
 
 export var appTheme= DarkTheme;
 
@@ -13,35 +13,31 @@ export default function AppColors() {
     ...DarkTheme,
     colors: {
       ...DarkTheme.colors,
-      sportColor:'#16e267',
+      sportColor:'#00bb68',text:'#4e5258',border:'black'
     },
   };
   
   const appLightTheme = {
     ...DefaultTheme,
     colors: {
-      ...DefaultTheme.colors,sportColor:'#16e267',
+      ...DefaultTheme.colors,sportColor:'#00bb68',text:'#4e5258',border:'white'
       
     },
   };
 
   appTheme=(appScheme=='dark')?appDarkTheme:appLightTheme
-  console.log(appTheme);
+  // console.log(appTheme);
 
   
-  return(<div theme={appTheme}>
-  </div>);
-  // sportColor:'#16e267',
-  // blackTransparent:'rgba(0,0,0,0.2)',
-  // // bgcolor:global.appTheme.colors.background
-  // bgColor:global.appThemebgcolor
-  
+  return(
+  <View theme={appTheme}/>);
 }
 
 export const colors={
-  sportColor:'#16e267',
+  yellowColor:'#fbbc04',
+  sportColor:'#00bb68',
   blackTransparent:'rgba(0,0,0,0.2)',
   // bgcolor:global.appTheme.colors.background
-  bgColor:global.appThemebgcolor
+  bgColor:global.appThemebgcolor,
 }
 

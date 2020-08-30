@@ -2,13 +2,15 @@ import React, { Component } from 'react'
 import { Alert,View,Text, StyleSheet, SafeAreaView,TouchableOpacity, TextInput } from 'react-native'
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import * as UIElements from '../Tools/UIElements';
+import { colors } from '../constants/AppColors';
 
 
 
   
 export default class FilterBar extends Component {
     state = {
-        location: null,
+        location: global.location,
+        shortAddress:global.shortAddress,
         showOption:0,
     };
     
@@ -33,20 +35,23 @@ export default class FilterBar extends Component {
                     
                     <View style={styles.safearea}>
                     <View style={styles.detectlocation}>
-                    <TouchableOpacity onPress={this.findCoordinates}>
-                    <Text>{this.state.location==undefined?"Detect my Location":this.state.location}</Text>
+                    <TouchableOpacity style={{flexDirection:'row'}} onPress={()=>this.setState({showOption:1})}>
+                    <Text>{this.state.location==undefined?"Detect my Location":this.state.shortAddress}</Text>
+                    {UIElements.drawGapH(10)}
+                    <IonIcon style={{marginTop:5}} name="ios-arrow-down" size={18} color='black'/>
                     </TouchableOpacity>
+                   
                     </View>
                     {UIElements.drawGapH('42%')}
                     
-                    <TouchableOpacity onPress={()=>this.setState({showOption:1})}>
+                    {/* <TouchableOpacity onPress={()=>this.setState({showOption:1})}>
                     <View style={styles.searchIcon}>
                     <IonIcon name="ios-search" size={18} color='black'/>
-                    </View></TouchableOpacity>
+                    </View></TouchableOpacity> */}
                     
                     <TouchableOpacity onPress={()=>this.props.navigation.navigate('Filter')}>
                     <View style={styles.filterIcon}>
-                    <IonIcon name="ios-options" size={18} color='black'/>
+                    <IonIcon name="ios-options" size={20} color='black'/>
                     </View></TouchableOpacity>
                     </View>
                 }
@@ -54,16 +59,16 @@ export default class FilterBar extends Component {
                     
                     <View style={styles.safearea}>
                     <View style={styles.searchIcon}>
-                    <IonIcon name="ios-search" size={18} color='black'/>
+                    <IonIcon name="ios-search" size={20} color='black'/>
                     </View>
                     <TextInput
-                    style={{ height:"75%", padding:10,borderColor: 'gray', borderWidth: 0.5,borderRadius:10,flex:1 }} 
+                    style={{ margin:5,borderColor: 'gray', borderWidth: 0.5,borderRadius:10,flex:1 }} 
                     editable
                     onChangeText={text => this.onChangeText(text)}
                     />
                     <TouchableOpacity onPress={()=>this.setState({showOption:0})}>
                     <View style={styles.filterIcon}>
-                    <IonIcon name="ios-close-circle-outline" size={20} color='black'/>
+                    <IonIcon name="ios-close-circle-outline" size={22} color='black'/>
                     </View></TouchableOpacity>
                     </View>
                 }
@@ -73,7 +78,7 @@ export default class FilterBar extends Component {
         }
         const styles=StyleSheet.create({
             header:{
-                height:100,backgroundColor:'white',
+                height:50,backgroundColor:colors.sportColor,
                 shadowColor: "#000",
                 shadowOffset: {
                     width: 0,
@@ -85,23 +90,23 @@ export default class FilterBar extends Component {
                 elevation: 5,
             },
             safearea:{
-                flex:1,flexDirection:'row',
-                // borderWidth:1,
+                flex:1,flexDirection:'row',alignContent:'center',
+                height:50,width:'100%',
             },
             detectlocation:{
+                flexDirection:'row',
+                alignSelf:'center',justifyContent:'center',
                 padding:10,marginLeft:10,
-                borderWidth:0.5,borderRadius:5,height:"75%"
+               flex:1,
             },
             searchIcon:{
                 padding:10,
-                height:"90%",
                 // marginRight:'3%',
                 // marginEnd:"3%",
             },
             filterIcon:{
                 flexDirection:'row-reverse',
                 padding:10,
-                height:"90%"
                 
             }
         })

@@ -9,7 +9,7 @@ export default class StartBanner extends Component {
     render() {
         return (
             <>
-            <View style={{backgroundColor:colors.appcolor,borderRadius:20,height:150,overflow:'hidden'}} >
+            <View style={{backgroundColor:colors.sportColor,borderRadius:20,height:150,overflow:'hidden'}} >
             <Text style={{padding:20,fontSize:20,fontWeight:'500'}}>Havnt got your ground yet?</Text>
             {UIElements.drawGapV(35)}
             <TouchableOpacity onPress={()=>{this.props.navigation.navigate('Facilty')}}
