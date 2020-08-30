@@ -4,7 +4,7 @@ import * as UIElements from '../Tools/UIElements'
 import StartBanner from '../Prefab/StartBanner';
 import { ScrollView } from 'react-native';
 
-const arr=[{image:require('../assets/sport01.jpg')},{image:require('../assets/sport02.jpg')},{image:require('../assets/sport03.jpg')},{image:require('../assets/sport04.jpg')}];
+// const arr=[{image:require('../assets/sport01.jpg')},{image:require('../assets/sport02.jpg')},{image:require('../assets/sport03.jpg')},{image:require('../assets/sport04.jpg')}];
 
 export default class HomeScreen extends Component {
 
@@ -13,7 +13,7 @@ export default class HomeScreen extends Component {
 
         return (
             <>
-            <BannerScroll images={arr}/>
+            {/* <BannerScroll images={arr}/> */}
             <ScrollView contentContainerStyle={{padding:10}}>
             <StartBanner navigation={this.props.navigation}/>
             </ScrollView>

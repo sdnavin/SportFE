@@ -122,9 +122,9 @@ export default class FilterPage extends Component {
                 <CheckBox 
                 boxType={'square'}
                 tintColor={'gray'}
-                onCheckColor={colors.appcolor}
+                onCheckColor={colors.sportColor}
                 // onFillColor={colors.appcolor}
-                onTintColor={colors.appcolor}
+                onTintColor={colors.sportColor}
                     disabled={false}
                     value={false}
                     onValueChange={(val) => {this.setState({valie:val})}}

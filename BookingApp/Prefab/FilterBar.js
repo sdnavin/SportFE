@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Alert,View,Text, StyleSheet, SafeAreaView,TouchableOpacity, TextInput } from 'react-native'
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import * as UIElements from '../Tools/UIElements';
+import { colors } from '../constants/AppColors';
 
 
 
@@ -73,7 +74,7 @@ export default class FilterBar extends Component {
         }
         const styles=StyleSheet.create({
             header:{
-                height:100,backgroundColor:'white',
+                height:50,backgroundColor:colors.sportColor,
                 shadowColor: "#000",
                 shadowOffset: {
                     width: 0,
@@ -86,11 +87,13 @@ export default class FilterBar extends Component {
             },
             safearea:{
                 flex:1,flexDirection:'row',
-                // borderWidth:1,
+                height:50,
+                borderWidth:1,
             },
             detectlocation:{
+                alignSelf:'center',justifyContent:'center',
                 padding:10,marginLeft:10,
-                borderWidth:0.5,borderRadius:5,height:"75%"
+                borderWidth:.5,borderRadius:5,height:"75%"
             },
             searchIcon:{
                 padding:10,

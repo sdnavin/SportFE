@@ -19,7 +19,7 @@ export default class DateTimeShower extends Component {
             <>
             <View onPress={onClose}>
                 <TouchableOpacity style={styles.Container} onPress={onClose}>
-                <Text style={{alignSelf:'center',fontSize:18,color:colors.appcolor}}>Done</Text>
+                <Text style={{alignSelf:'center',fontSize:18,color:colors.sportColor}}>Done</Text>
                 </TouchableOpacity>
                 <DateTimePicker
                 value={dateIn}
