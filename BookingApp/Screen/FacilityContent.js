@@ -45,7 +45,7 @@ export default class FacilityContent extends Component {
                 <Text style={styles.locateTxt}>{item.location}</Text>
                 <Text style={styles.locateTxt}>{item.type}</Text>
                 {UIElements.drawGapV(10)}
-                <Button buttonStyle={{backgroundColor:colors.yellowColor,height:20}} title='Book Now' titleStyle={{alignSelf:'center',fontSize:12}}/>
+                <Button buttonStyle={{backgroundColor:colors.yellowColor,height:20}} title='BOOK NOW' titleStyle={{alignSelf:'center',fontSize:12}}/>
                 </View>
                 <View>
                 <View style={{flexDirection:'row'}}>
