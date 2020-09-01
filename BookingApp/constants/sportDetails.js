@@ -1,38 +1,38 @@
 const games=[{
     name:"FootBall",
-    image:require("../assets/Asset21.png"),
+    image:require("../assets/football.png"),
     selected:false
 },{
-    name:"Batminton",
-    image:require("../assets/Asset23.png"),
+    name:"Badminton",
+    image:require("../assets/badminton.png"),
     selected:false
 },{
     name:"Tennis",
-    image:require("../assets/Asset24.png"),
+    image:require("../assets/tennis.png"),
     selected:false
 },{
     name:"Basketball",
-    image:require("../assets/Asset25.png"),
+    image:require("../assets/basketball.png"),
     selected:false
 },{
     name:"Cricket",
-    image:require("../assets/Asset28.png"),
+    image:require("../assets/cricket.png"),
     selected:false
 },{
     name:"Gym",
-    image:require("../assets/Asset27.png"),
+    image:require("../assets/gym.png"),
     selected:false
 },{
     name:"Squash",
-    image:require("../assets/Asset28.png"),
+    image:require("../assets/tennis.png"),
     selected:false
 },{
     name:"Table Tennis",
-    image:require("../assets/Asset29.png"),
+    image:require("../assets/tabletennis.png"),
     selected:false
 },{
-    name:"NetBall",
-    image:require("../assets/Asset30.png"),
+    name:"VollyBall",
+    image:require("../assets/vollyball.png"),
     selected:false
 },{
     name:"Space Hire",

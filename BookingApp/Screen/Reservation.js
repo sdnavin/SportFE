@@ -70,10 +70,10 @@ export default class Reservation extends Component {
     
     getGames(myinfo){
         return( 
-            myinfo.games.map((item, index)=>
+            myinfo.sports.map((item, index)=>
             (
                 
-                <Text key={'key'+index} style={{fontSize:18}}>{ item +(index<(myinfo.games.length-1)?",":"") }</Text>
+                <Text key={'key'+index} style={{fontSize:18}}>{ item +(index<(myinfo.sports.length-1)?",":"") }</Text>
                 )
                 )
                 );
@@ -82,15 +82,25 @@ export default class Reservation extends Component {
             getAllTimes(){
                 var alllines=[];
                 let t=0;
+                var alltime=[];
                 for (t=0;t<24;t++){
-                    alllines.push(
-                        <TouchableOpacity onPress={()=>{this.setState({selectedIndex:2})}} style={{margin:4,borderRadius:10, borderWidth:2,width:75,height:70,justifyContent:'center'}}>
-                        <Text style={{alignSelf:'center'}}>{("0" + (t+1)).slice(-2)+":00"}</Text>
-                        <Text style={{alignSelf:'center',fontWeight:'bold'}}>Book</Text>
+                    alltime[t]=t;
+                }
+                   return( alltime.map((item,index)=>{
+                       return(
+                        <TouchableOpacity key={'tot'+index} onPress={()=>{
+                            var timeHr=(index+1);
+                            var timeset=this.state.selectdate;
+                            console.log("T :"+timeHr);
+                            timeset.setHours(timeHr);
+                            timeset.setMinutes(0);
+                            this.setState({selectdate:timeset});
+                            this.setState({selectedIndex:2})
+                            }} style={{margin:3,borderRadius:10, borderWidth:2,width:75,height:70,justifyContent:'center'}}>
+                        <Text key={"tc"+index} style={{alignSelf:'center'}}>{("0" + (index+1)).slice(-2)+":00"}</Text>
+                        <Text key={"tb"+index}  style={{alignSelf:'center',fontWeight:'bold'}}>Book</Text>
                         </TouchableOpacity>
-                        )
-                    }
-                    return alllines;
+                   )}));
                 }
                 isLoading(children){
                     if(this.state.loading==1){
@@ -153,12 +163,12 @@ export default class Reservation extends Component {
                                 <>
                                 {this.isLoading(
                                     <ScrollView style={{margin:10,}}>
-                                    {UIElements.drawGapV(10)}
+                                    {/* {UIElements.drawGapV(10)}
                                     <View style={{flexDirection:'row',justifyContent:'center'}}>
                                     <Text style={{fontSize:16}}>Single Booking</Text>
                                     <Switch onValueChange={()=>{}} />
                                     <Text style={{fontSize:16}}>Block Booking</Text>
-                                    </View>
+                                    </View> */}
                                     
                                     {UIElements.drawGapV(10)}
                                     <TouchableOpacity style={{borderWidth:0.5,flexDirection:'row',borderRadius:10,height:50,flex:1,justifyContent:'center',backgroundColor:'white'}} onPress={()=>this.setState({showDateTime:1})}>
@@ -188,7 +198,7 @@ export default class Reservation extends Component {
                                     {UIElements.drawGapV(15)}
                                     <View key={"V"+index} style={{flexDirection:'row',height:75,justifyContent:'center'}}>
                                     <Text key={"T+"+index} style={{alignSelf:'center',fontWeight:'bold',fontSize:15,width:'10%',textAlign:'center'}}> {monthNames[item.getMonth()]+" "+item.getDate()} </Text>
-                                    <ScrollView  key={"S+"+index}  style={{paddingRight:10}} horizontal >
+                                    <ScrollView  key={"S+"+index}  style={{marginRight:10}} horizontal >
                                     {this.getAllTimes()}
                                     </ScrollView>
                                     <MaterialIcons key={"MI+"+index} style={{position:'absolute',right:-15,marginTop:20}} name="keyboard-arrow-right" size={40} />
@@ -212,13 +222,17 @@ export default class Reservation extends Component {
                                         {UIElements.drawGapV(10)}
                                         <View style={{justifyContent:'space-between'}}>
                                         <Text style={{fontSize:22,fontWeight:'bold'}}>{myInfo.name}</Text>
-                                        <Text style={{fontSize:18,fontWeight:'bold'}}>{myInfo.location}</Text>
+                                        {UIElements.drawGapV(5)}
 
-                                        <Text style={{fontSize:18,fontWeight:'bold'}}>{Date+" - "+myInfo.selectdate}</Text>
-                                        <Text style={{fontSize:18,fontWeight:'bold'}}>{myInfo.location}</Text>
-                                        <Text style={{fontSize:18,fontWeight:'bold'}}>{myInfo.location}</Text>
+                                        <Text style={{fontSize:18,fontWeight:'600'}}>{myInfo.location}</Text>
+                                        {UIElements.drawGapV(5)}
 
-                                        <Button onPress={()=>{this.setState({selectedIndex:1})}} buttonStyle={{backgroundColor:colors.yellowColor,height:20,width:'60%',alignSelf:'center'}} title='CONFIRM & PAY' titleStyle={{alignSelf:'center',fontSize:20}}/>
+                                        <View style={{flexDirection:'row'}} ><Text style={{fontSize:18,fontWeight:'bold'}}>{"Date - "}</Text>
+                                        <Text style={{fontSize:18,fontWeight:'600'}}>{this.state.selectdate.getDate()+" "+monthNames[this.state.selectdate.getMonth()]+" "+this.state.selectdate.getFullYear()}</Text></View>
+                                        <View style={{flexDirection:'row'}} ><Text style={{fontSize:18,fontWeight:'bold'}}>{"Time - "}</Text>
+                                        <Text style={{fontSize:18,fontWeight:'600'}}>{("0" + (this.state.selectdate.getHours())).slice(-2)+":00"}</Text></View>
+                                        {UIElements.drawGapV(10)}
+                                        <Button onPress={()=>{}} buttonStyle={{backgroundColor:colors.yellowColor,height:30,width:'50%',alignSelf:'center'}} title='Confirm & Pay' titleStyle={{alignSelf:'center',fontSize:18}}/>
                                        </View></View>
                                         </>
                                         )}

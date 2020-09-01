@@ -50,7 +50,7 @@ export default class MapModal extends Component {
               fetch(url)
                 .then(res => res.json())
                 .then((resJson) => {
-                    console.log(resJson.results[0].formatted_address);
+                    console.log(resJson);
                     this.setState({shortAddress:resJson.results[0].formatted_address});
                     global.shortAddress=resJson.results[0].formatted_address;
 
