@@ -10,6 +10,7 @@ import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Api from '../constants/ApiLink';
 import gamesIn from '../constants/sportDetails'
+import HeaderTitle from './HeaderTitle';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
@@ -40,14 +41,13 @@ export default class FacilityContent extends Component {
         this.getFacilityFromApiAsync(faciltyurl);
     }
     getImage(item){
-        console.log(item);
+        // console.log(item);
         var imagesource=gamesIn.filter(dataIn=>(
             item.toLowerCase().includes(dataIn.name.toLowerCase())
             ));
 
             if(imagesource.length>0){
-                console.log(imagesource[0].image);
-                return imagesource[0].image;
+                return imagesource[0];
             }
             return '';
         }
@@ -55,10 +55,11 @@ export default class FacilityContent extends Component {
         {
             return(item.sports.map((data,index)=>{
                 var imagesc=this.getImage(data);
+                // console.log(imagesc.name+""+imagesc.image)
                 return(
                     <>
                     {imagesc.length>0&&
-                        <Image key={"image"+index} style={{height:20,width:20}} source={imagesc}/>
+                        <Image key={"image"+index} style={{height:20,width:20}} source={imagesc.image} PlaceholderContent={<ActivityIndicator/>}/>
                     }
                     </>
                     );
@@ -69,7 +70,9 @@ export default class FacilityContent extends Component {
             render() {
                 return (
                     <>
+                    <HeaderTitle/>
                     <FilterBar navigation={this.props.navigation}/>
+
                     <ScrollView style={{backgroundColor:appTheme.colors.background}} >
                     <FlatGrid
                     itemDimension={(screenWidth)}
@@ -78,32 +81,35 @@ export default class FacilityContent extends Component {
                         <TouchableOpacity onPress={()=>{
                             this.props.navigation.navigate("Reserve",{facilityInfo:item});
                         }} ><>
-                        <Card containerStyle={{backgroundColor:appTheme.colors.background,borderWidth:0,padding:0,margin:0, width:'100%',marginTop:10,shadowOpacity: 0,elevation:0}}>
-                        <View style={{flex:1,width:'100%'}}>
-                        <View style={{flexDirection:'row'}}>
+                        <Card containerStyle={{backgroundColor:appTheme.colors.background,borderWidth:0,padding:0,margin:0, width:'100%',marginTop:10}}>
+                        <View style={{flex:1,width:'100%',height:150}}>
                         <Image
                         source={{ uri:item.images[0]}}
-                        style={{ width: 120 , height: 80,borderRadius:10 }}
+                        style={{ width: '100%' , height: '100%',borderRadius:10 }}
                         PlaceholderContent={<ActivityIndicator/>}
                         />
+                        <View style={{position:'absolute',width: '100%' ,}}>
+                        <Button buttonStyle={{backgroundColor:colors.yellowColor,width:100,alignSelf:'flex-end',height:20}} title='BOOK NOW' titleStyle={{alignSelf:'center',fontSize:12}}/>
+                        {UIElements.drawGapV(80)}
+                        <View style={{flexDirection:'row'}}>
                         {UIElements.drawGapH(10)}
-                        <View style={{width:185}}>
-                        <Text style={{fontWeight:'bold'}}>{item.name}</Text>
-                        <Text style={styles.locateTxt}>{item.city}</Text>
+                        <View style={{width:'80%'}}>
+                        <Text style={{fontWeight:'bold',color:'white'}}>{item.name}</Text>
+                        <Text style={[styles.locateTxt,{color:'white'}]}>{item.city}</Text>
                         
                         {this.getallIcon(item)}
-                        {UIElements.drawGapV(10)}
-                        <Button buttonStyle={{backgroundColor:colors.yellowColor,height:20}} title='BOOK NOW' titleStyle={{alignSelf:'center',fontSize:12}}/>
                         </View>
+                        {/* {UIElements.drawGapH(80)} */}
                         <View>
                         <View style={{flexDirection:'row'}}>
-                        <MaterialIcons name='location-on' size={20} color={appTheme.colors.text}/>
-                        <Text style={{fontSize:12}} >{'10km'}</Text>
+                        <MaterialIcons name='location-on' size={20} color='white'/>
+                        <Text style={{fontSize:12,color:'white'}} >{'10km'}</Text>
                         </View>
-                        {UIElements.drawGapV(10)}
+                        {UIElements.drawGapV(2)}
                         <View style={{flexDirection:'row'}}>
-                        <MaterialIcons name='star-border' size={20} color={appTheme.colors.text}/>
-                        <Text style={{fontSize:12,alignSelf:'center'}} >{item.rating}</Text></View>
+                        <MaterialIcons name='star-border' size={20} color='white'/>
+                        <Text style={{fontSize:12,alignSelf:'center',color:'white'}} >{item.rating}</Text></View>
+                        </View>
                         </View>
                         </View>
                         </View>

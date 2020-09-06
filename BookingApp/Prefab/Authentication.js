@@ -126,44 +126,49 @@ export default function Authentication () {
   }, [authState]);
 
   return (
-    <>
-      {!!authState.accessToken ? (
-        <>
-          <Text>accessToken</Text>
-          <Text>{authState.accessToken}</Text>
-          <Text>accessTokenExpirationDate</Text>
-          <Text>{authState.accessTokenExpirationDate}</Text>
-          <Text>refreshToken</Text>
-          <Text>{authState.refreshToken}</Text>
-          <Text>scopes</Text>
-          <Text>{authState.scopes.join(', ')}</Text>
-        </>
-      ) : (
-        <Text>{authState.hasLoggedInOnce ? 'Goodbye.' : 'Hello, stranger.'}</Text>
-      )}
 
-      <>
-        {!authState.accessToken ? (
-          <>
-            <Button
-              onPress={() => handleAuthorize('identityserver')}
-              title="Authorize IdentityServer"
-              color="#DA2536"
-            />
-            <Button
-              onPress={() => handleAuthorize('auth0')}
-              title="Authorize Auth0"
-              color="#DA2536"
-            />
-          </>
-        ) : null}
-        {!!authState.refreshToken ? (
-          <Button onPress={handleRefresh} title="Refresh" color="#24C2CB" />
-        ) : null}
-        {showRevoke ? (
-          <Button onPress={handleRevoke} title="Revoke" color="#EF525B" />
-        ) : null}
-      </>
+    <>
+    {/* {!authState.accessToken?()} */}
     </>
+
+    // <>
+    //   {!!authState.accessToken ? (
+    //     <>
+    //       <Text>accessToken</Text>
+    //       <Text>{authState.accessToken}</Text>
+    //       <Text>accessTokenExpirationDate</Text>
+    //       <Text>{authState.accessTokenExpirationDate}</Text>
+    //       <Text>refreshToken</Text>
+    //       <Text>{authState.refreshToken}</Text>
+    //       <Text>scopes</Text>
+    //       <Text>{authState.scopes.join(', ')}</Text>
+    //     </>
+    //   ) : (
+    //     <Text>{authState.hasLoggedInOnce ? 'Goodbye.' : 'Hello, stranger.'}</Text>
+    //   )}
+
+    //   <>
+    //     {!authState.accessToken ? (
+    //       <>
+    //         <Button
+    //           onPress={() => handleAuthorize('identityserver')}
+    //           title="Authorize IdentityServer"
+    //           color="#DA2536"
+    //         />
+    //         <Button
+    //           onPress={() => handleAuthorize('auth0')}
+    //           title="Authorize Auth0"
+    //           color="#DA2536"
+    //         />
+    //       </>
+    //     ) : null}
+    //     {!!authState.refreshToken ? (
+    //       <Button onPress={handleRefresh} title="Refresh" color="#24C2CB" />
+    //     ) : null}
+    //     {showRevoke ? (
+    //       <Button onPress={handleRevoke} title="Revoke" color="#EF525B" />
+    //     ) : null}
+    //   </>
+    // </>
   );
 }

@@ -13,14 +13,14 @@ export default function AppColors() {
     ...DarkTheme,
     colors: {
       ...DarkTheme.colors,
-      sportColor:'#00bb68',text:'#4e5258',border:'black'
+      sportColor:'#00bb68',text:'#4e5258',border:'white'
     },
   };
   
   const appLightTheme = {
     ...DefaultTheme,
     colors: {
-      ...DefaultTheme.colors,sportColor:'#00bb68',text:'#4e5258',border:'white'
+      ...DefaultTheme.colors,sportColor:'#00bb68',text:'#4e5258',border:'black'
       
     },
   };

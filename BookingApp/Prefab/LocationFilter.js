@@ -2,35 +2,34 @@ import React, { Component } from 'react'
 import { Alert,View,Text, StyleSheet, SafeAreaView, TextInput, ScrollView } from 'react-native'
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import * as UIElements from '../Tools/UIElements';
-import AppColors, { colors, appTheme } from '../constants/AppColors';
+import { colors } from '../constants/AppColors';
 
 import {TouchableOpacity} from 'react-native-gesture-handler'
 
 
-export default class FilterBar extends Component {
+export default class LocationFilter extends Component {
     constructor(props){
         super(props);
         this.state = {
             location: global.location,
             shortAddress:global.shortAddress,
             showOption:0,searchtext:'',
-            suggestions:[],allData:[]
+            suggestions:[],
         };
         this.suggestedOption=this.suggestedOption.bind(this);
     }
-    dataM=[];
+    allData=[]
     componentDidMount(){
         let t=0;
         console.log(global.locations.length);
         for(t=0;t<global.locations.length;t++){
             var obj={name:global.locations[t].name,id:global.locations[t].id}
-            this.dataM.push(obj);
+            this.allData.push(obj);
         }
         for(t=0;t<global.sports.length;t++){
             var obj={name:global.sports[t].name,id:global.sports[t].id}
-            this.dataM.push(obj);
+            this.allData.push(obj);
         }
-        this.setState({allData:this.dataM});
         // this.allData.push(global.locations);
         // this.allData.push(global.sports);
     }
@@ -75,30 +74,72 @@ export default class FilterBar extends Component {
                     )}))
             }
             render() {
-                return (<>
-                <AppColors/>
-                    <SafeAreaView style={styles.header} >
-                        <View style={{flexDirection:'row',flex:1}} >
-                            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Filter')} style={{padding:5, flexDirection:'row',borderWidth:1,borderColor:appTheme.colors.border,borderRadius:5,justifyContent:'center'}} >
-                                <Text style={{alignSelf:'center',color:appTheme.colors.text }}>Filters </Text>
-                                <IonIcon name="ios-options" style={{color:appTheme.colors.text}} size={20} color='black'/>
-                            </TouchableOpacity>
-                            <ScrollView style={{marginLeft:5}} horizontal showsHorizontalScrollIndicator={false} >
-                                {this.state.allData.map((item,index)=>{
-                                   return( <TouchableOpacity key={'FTo'+index} style={{marginLeft:5, padding:5, flexDirection:'row',borderWidth:1,borderColor:appTheme.colors.border,borderRadius:5,justifyContent:'center'}} >
-                                    <Text  key={'FT'+index} style={{alignSelf:'center',color:appTheme.colors.text }}>{item.name}</Text>
-                                </TouchableOpacity>)
-                                })}
-                            </ScrollView>
+                return (
+                    <SafeAreaView  style={styles.header} >
+                    {this.state.showOption===0 &&
+                        
+                        <View style={styles.safearea}>
+                        <View style={styles.detectlocation}>
+                        <TouchableOpacity style={{flexDirection:'row'}} onPress={()=>this.setState({showOption:1})}>
+                        <Text>{this.state.location==undefined?"Detect my Location":this.state.shortAddress}</Text>
+                        {UIElements.drawGapH(10)}
+                        <IonIcon style={{marginTop:5}} name="ios-arrow-down" size={18} color='black'/>
+                        </TouchableOpacity>
+                        
                         </View>
-                    </SafeAreaView></>
+                        {UIElements.drawGapH('42%')}
+                        
+                        {/* <TouchableOpacity onPress={()=>this.setState({showOption:1})}>
+                        <View style={styles.searchIcon}>
+                        <IonIcon name="ios-search" size={18} color='black'/>
+                    </View></TouchableOpacity> */}
+                    
+                    <TouchableOpacity onPress={()=>this.props.navigation.navigate('Filter')}>
+                    <View style={styles.filterIcon}>
+                    <IonIcon name="ios-options" size={20} color='black'/>
+                    </View></TouchableOpacity>
+                    </View>
+                }
+                {this.state.showOption===1 &&
+                    
+                    <View style={styles.safearea}>
+                    <View style={styles.searchIcon}>
+                    <IonIcon name="ios-search" size={20} color='black'/>
+                    </View>
+                    <View style={{flex:1}} >
+                    <TextInput
+                    autoFocus
+                    value={this.state.searchtext}
+                    style={{ margin:5,borderColor: 'gray', borderWidth: 1,borderRadius:10,flex:1 }} 
+                    editable
+                    onChangeText={text => this.onChangeText(text)}
+                    />
+                    <View style={{position:'absolute',elevation:5,top:50,zIndex:10,width:'100%'}}>
+                    {this.getSuggestions()}
+                        </View>
+                        </View>
+                        <TouchableOpacity onPress={()=>this.setState({showOption:0})}>
+                        <View style={styles.filterIcon}>
+                        <IonIcon name="ios-close-circle-outline" size={22} color='black'/>
+                        </View></TouchableOpacity>
+                        </View>
+                    }
+                    </SafeAreaView>
                     )
                 }
             }
             const styles=StyleSheet.create({
                 header:{
-                    margin:10,paddingTop:5,
-                    height:45,justifyContent:'center'
+                    height:50,backgroundColor:colors.sportColor,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 2,
+                    },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.84,
+                    // borderWidth:2,
+                    elevation: 5,zIndex:1000
                 },
                 safearea:{
                     flex:1,flexDirection:'row',alignContent:'center',

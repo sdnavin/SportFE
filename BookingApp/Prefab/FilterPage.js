@@ -9,7 +9,7 @@ import CheckBox from '@react-native-community/checkbox'
 // import DateTimePicker from '@react-native-community/datetimepicker';
 import DateTimeShower from './DateTimeShower'
 import { FlatGrid } from 'react-native-super-grid';
-const gamesList=['Football','Cricket','Badmiton','Hockey','Handball','Tennis']
+
 
 export default class FilterPage extends Component {
     
@@ -18,7 +18,6 @@ export default class FilterPage extends Component {
         this.onChangeDate=this.onChangeDate.bind(this);
         this.onChangeStartTime=this.onChangeStartTime.bind(this);
         this.onChangeEndTime=this.onChangeEndTime.bind(this);
-        
         this.state={
             uiOption:0,
             showDateTime:0,
@@ -27,6 +26,8 @@ export default class FilterPage extends Component {
             endTime:new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDay(), 20, 0, 0, 0),
             showStartTime:'',
             showEndTime:'',
+            gamesList:global.sports,
+
         };
         
     }
@@ -108,7 +109,7 @@ export default class FilterPage extends Component {
     <FlatGrid 
     style={{margin:10}}
     itemDimension={100}
-    data={gamesList}
+    data={this.state.gamesList}
     renderItem={({ item }) => (<View style={{flexDirection:'row'}} >
     <CheckBox 
     boxType={'square'}
@@ -120,7 +121,7 @@ export default class FilterPage extends Component {
     value={false}
     onValueChange={(val) => {this.setState({valie:val})}}
     />
-    <Text style={{paddingLeft:5, alignSelf:'center'}} >{item}</Text>
+    <Text style={{paddingLeft:5, alignSelf:'center'}} >{item.name}</Text>
     </View>)}
     />
     

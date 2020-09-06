@@ -5,6 +5,8 @@ const Api={
     getLocations:"http://demo.mobapi.sportfe.qa/api/Common/GetAllLocations",
     getFacilities:"http://demo.mobapi.sportfe.qa/api/Facility/GetAllFC?Page=pageno&PageSize=pagesize",
     location:"&LocationID=",
-    sport:"&SportID="
+    sport:"&SportID=",
+    registerUser:"https://demo.account.sportfe.com/api/MobApi/RegsiterMobile",
+    identityServer:'https://demo.account.sportfe.com/'
 }
 export default Api;
