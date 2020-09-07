@@ -23,7 +23,9 @@ export default class FacilityScreen extends Component {
             <Stack.Screen name="FaciltyContent" component={FacilityContent} options={{
                 headerMode:'none',headerShown: false,
             }} />
-            <Stack.Screen name="Filter" component={FilterPage} />
+            <Stack.Screen name="Filter" component={FilterPage} options={{
+                headerMode:'none',headerShown: false,
+            }}  />
             <Stack.Screen name="Reserve" component={Reservation}
             options={({ route }) => ({ title: route.params.facilityInfo.name })} />
 

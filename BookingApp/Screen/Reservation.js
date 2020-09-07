@@ -10,6 +10,8 @@ import { SliderBox } from "react-native-image-slider-box";
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import DateTimeShower from '../Prefab/DateTimeShower'
 import { ActivityIndicator } from 'react-native'
+import Api from '../constants/ApiLink'
+import { Linking } from 'react-native'
 
 // const component1 = () => <Text>Details</Text>
 // const component2 = () => <Text>Booking</Text>
@@ -24,19 +26,61 @@ export default class Reservation extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            dataLoading:0,
             loading:1,
-            selectedIndex: 1,
+            selectedIndex: 0,
             allDates:[new Date(),new Date(),new Date(),new Date()],
             selectdate:new Date(),
             futureDate:new Date(),
             reserveDateTime:new Date(),
-
+            facilityData:{}
+            
         }
         this.onChangeDate(null,this.state.selectdate);
         setTimeout(()=>{this.onChangeDate(null,this.state.selectdate)},100);
         this.updateIndex = this.updateIndex.bind(this);
         this.onChangeDate=this.onChangeDate.bind(this);
     }
+    componentDidMount(){
+        var myInfo=this.props.route.params.facilityInfo;
+        this.getFacilityFromApiAsync(Api.getFacilityDetail+myInfo.id)
+    }
+    
+    openMap(lat,lng){
+        const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+        const latLng = `${lat},${lng}`;
+        const label = 'Custom Label';
+        const url = Platform.select({
+            ios: `${scheme}${label}@${latLng}`,
+            android: `${scheme}${latLng}(${label})`
+        });
+        
+        Linking.openURL(url); 
+    }
+    listtoString(info){
+        var totalstring="";
+
+        const nameList = info.map((name,index) => {
+            totalstring+=name+((index>=(info.length-1))?"":", ");
+
+        });
+        return totalstring;
+    }
+  
+    getFacilityFromApiAsync = async (facilityURL) => {
+        try {
+            
+            let response = await fetch(facilityURL);
+            let jsonObj = await response.text();
+            console.log(jsonObj);
+            global.Facilities=(JSON.parse(jsonObj));
+            this.setState({facilityData:JSON.parse(jsonObj),dataLoading:1})
+            //   return json.movies;
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    
     updateIndex (selectedIndex) {
         this.setState({selectedIndex})
     }
@@ -69,14 +113,11 @@ export default class Reservation extends Component {
     };
     
     getGames(myinfo){
-        return( 
-            myinfo.sports.map((item, index)=>
-            (
-                
-                <Text key={'key'+index} style={{fontSize:18}}>{ item +(index<(myinfo.sports.length-1)?",":"") }</Text>
-                )
-                )
-                );
+        let totalstring="";
+        myinfo.sports.map((item, index)=>{
+                totalstring+=item.name+(index<(myinfo.sports.length-1)?", ":"");
+            });
+        return(<Text style={{fontSize:18,textAlign:'right'}}>{totalstring}</Text>)
             }
             
             getAllTimes(){
@@ -86,8 +127,8 @@ export default class Reservation extends Component {
                 for (t=0;t<24;t++){
                     alltime[t]=t;
                 }
-                   return( alltime.map((item,index)=>{
-                       return(
+                return( alltime.map((item,index)=>{
+                    return(
                         <TouchableOpacity key={'tot'+index} onPress={()=>{
                             var timeHr=(index+1);
                             var timeset=this.state.selectdate;
@@ -96,78 +137,89 @@ export default class Reservation extends Component {
                             timeset.setMinutes(0);
                             this.setState({selectdate:timeset});
                             this.setState({selectedIndex:2})
-                            }} style={{margin:3,borderRadius:10, borderWidth:2,width:75,height:70,justifyContent:'center'}}>
+                        }} style={{margin:3,borderRadius:10, borderWidth:2,width:75,height:70,justifyContent:'center'}}>
                         <Text key={"tc"+index} style={{alignSelf:'center'}}>{("0" + (index+1)).slice(-2)+":00"}</Text>
                         <Text key={"tb"+index}  style={{alignSelf:'center',fontWeight:'bold'}}>Book</Text>
                         </TouchableOpacity>
-                   )}));
-                }
-                isLoading(children){
-                    if(this.state.loading==1){
-                        return( <View><ActivityIndicator/></View>)
-                    }else{
-                        return(<>{children}</>);
+                        )}));
                     }
-                }
-                
-                render() {
-                    var myInfo=this.props.route.params.facilityInfo;
-                    const buttons = [{ element: this.component1 }, { element: this.component2 }, { element: this.component3 }];
-                    const { selectedIndex } = this.state;
-                    return (
-                        <View style={{backgroundColor:appTheme.colors.background}}>
-                        <ButtonGroup
-                        onPress={this.updateIndex}
-                        selectedIndex={selectedIndex}
-                        buttons={buttons}
-                        selectedButtonStyle={{backgroundColor:colors.yellowColor}}
-                        containerStyle={{height: 35}} />
-                        
-                        {this.state.selectedIndex==0&&(
-                            <>
-                            <SliderBox
-                            images={myInfo.images}
-                            onCurrentImagePressed={index => {}}
-                            currentImageEmitter={index => {}}
-                            />
-                            <View style={{margin:10}}>
-                            {UIElements.drawGapV(10)}
-                            <View style={{flexDirection:'row',justifyContent:'space-between'}} >
-                            <Text style={{fontSize:22,fontWeight:'bold'}}>{myInfo.name}</Text>
-                            <Button onPress={()=>{this.setState({selectedIndex:1})}} buttonStyle={{backgroundColor:colors.yellowColor,height:20}} title='BOOK NOW' titleStyle={{alignSelf:'center',fontSize:20}}/>
-                            </View>
-                            {UIElements.drawGapV(20)}
-                            <View style={{flexDirection:'row',justifyContent:'space-between'}} >
-                            <Text style={{fontSize:18,fontWeight:'bold'}}>SPORTS</Text>
-                            <View style={{flexDirection:'row'}}>
-                            {this.getGames(myInfo)}
-                            </View>
-                            </View>
-                            {UIElements.drawGapV(10)}
-                            <View style={{flexDirection:'row',justifyContent:'space-between'}} >
-                            <Text style={{fontSize:18,fontWeight:'bold'}}>SURFACE</Text>
-                            <Text style={{fontSize:18}}>{myInfo.surface}</Text>
-                            </View>
-                            {UIElements.drawGapV(10)}
-                            <View style={{flexDirection:'row',justifyContent:'space-between'}} >
-                            <Text style={{fontSize:18,fontWeight:'bold'}}>PRICING</Text>
-                            <Text style={{fontSize:18}}>{myInfo.pricing}</Text>
-                            </View>
+                    isLoading(children){
+                        if(this.state.loading==1){
+                            return( <View><ActivityIndicator/></View>)
+                        }else{
+                            return(<>{children}</>);
+                        }
+                    }
+                    
+                    render() {
+                        if(this.state.dataLoading==0)
+                        return(<ActivityIndicator/>)
+                        var myInfo=this.state.facilityData;
+                        const buttons = [{ element: this.component1 }, { element: this.component2 }, { element: this.component3 }];
+                        const { selectedIndex } = this.state;
+                        return (
+                            <View style={{backgroundColor:appTheme.colors.background}}>
+                            <ButtonGroup
+                            onPress={this.updateIndex}
+                            selectedIndex={selectedIndex}
+                            buttons={buttons}
+                            selectedButtonStyle={{backgroundColor:colors.yellowColor}}
+                            containerStyle={{height: 35}} />
                             
-                            </View>
-                            
-                            </>
-                            )}
-                            
-                            {this.state.selectedIndex==1&&(
+                            {this.state.selectedIndex==0&&(
                                 <>
-                                {this.isLoading(
-                                    <ScrollView style={{margin:10,}}>
-                                    {/* {UIElements.drawGapV(10)}
-                                    <View style={{flexDirection:'row',justifyContent:'center'}}>
-                                    <Text style={{fontSize:16}}>Single Booking</Text>
-                                    <Switch onValueChange={()=>{}} />
-                                    <Text style={{fontSize:16}}>Block Booking</Text>
+                                <SliderBox
+                                images={myInfo.images}
+                                onCurrentImagePressed={index => {}}
+                                currentImageEmitter={index => {}}
+                                />
+                                <TouchableOpacity onPress={()=>{this.openMap(myInfo.latitude,myInfo.longitude)}} style={{backgroundColor:colors.sportColor,borderRadius:5,height:25,width:100,justifyContent:'center',alignSelf:'flex-end',}} >
+                                    <Text style={{alignSelf:'center'}}>View on Map</Text>
+                                </TouchableOpacity>
+                                <ScrollView style={{margin:10}}>
+                                <View style={{flexDirection:'row',justifyContent:'space-between'}} >
+                                <Text style={{fontSize:22,fontWeight:'bold'}}>{myInfo.name}</Text>
+                                <Button onPress={()=>{this.setState({selectedIndex:1})}} containerStyle={{alignSelf:'center'}} buttonStyle={{backgroundColor:colors.yellowColor,height:20}} title='BOOK NOW' titleStyle={{alignSelf:'center',fontSize:16}}/>
+                                </View>
+                                {UIElements.drawGapV(20)}
+                                <View style={{flexDirection:'row',justifyContent:'space-between'}} >
+                                <Text style={{fontSize:18,fontWeight:'bold'}}>SPORTS</Text>
+                                <View style={{width:'70%'}}>
+                                {this.getGames(myInfo)}
+                                </View>
+                                </View>
+                                {UIElements.drawGapV(15)}
+                                <View style={{flexDirection:'row',justifyContent:'space-between'}} >
+                                <Text style={{fontSize:18,fontWeight:'bold'}}>SURFACE</Text>
+                                <Text style={{fontSize:18}}>{myInfo.surface}</Text>
+                                </View>
+                                {UIElements.drawGapV(15)}
+                                <View style={{flexDirection:'row',justifyContent:'space-between'}} >
+                                <Text style={{fontSize:18,fontWeight:'bold'}}>PRICING</Text>
+                                <Text style={{fontSize:18}}>{myInfo.pricing}</Text>
+                                </View>
+                                {UIElements.drawGapV(15)}
+                                <View style={{flexDirection:'row',justifyContent:'space-between'}} >
+                                <Text style={{fontSize:18,fontWeight:'bold'}}>FACILITIES</Text>
+                                <View style={{width:'70%'}}>
+                                            <Text style={{fontSize:18,textAlign:'right'}}>{this.listtoString(myInfo.facilities)}</Text>
+                                    </View>
+                                </View>
+                                
+                                </ScrollView>
+                                
+                                </>
+                                )}
+                                
+                                {this.state.selectedIndex==1&&(
+                                    <>
+                                    {this.isLoading(
+                                        <ScrollView style={{margin:10,}}>
+                                        {/* {UIElements.drawGapV(10)}
+                                        <View style={{flexDirection:'row',justifyContent:'center'}}>
+                                        <Text style={{fontSize:16}}>Single Booking</Text>
+                                        <Switch onValueChange={()=>{}} />
+                                        <Text style={{fontSize:16}}>Block Booking</Text>
                                     </View> */}
                                     
                                     {UIElements.drawGapV(10)}
@@ -223,21 +275,22 @@ export default class Reservation extends Component {
                                         <View style={{justifyContent:'space-between'}}>
                                         <Text style={{fontSize:22,fontWeight:'bold'}}>{myInfo.name}</Text>
                                         {UIElements.drawGapV(5)}
-
+                                        
                                         <Text style={{fontSize:18,fontWeight:'600'}}>{myInfo.location}</Text>
                                         {UIElements.drawGapV(5)}
-
+                                        
                                         <View style={{flexDirection:'row'}} ><Text style={{fontSize:18,fontWeight:'bold'}}>{"Date - "}</Text>
                                         <Text style={{fontSize:18,fontWeight:'600'}}>{this.state.selectdate.getDate()+" "+monthNames[this.state.selectdate.getMonth()]+" "+this.state.selectdate.getFullYear()}</Text></View>
                                         <View style={{flexDirection:'row'}} ><Text style={{fontSize:18,fontWeight:'bold'}}>{"Time - "}</Text>
                                         <Text style={{fontSize:18,fontWeight:'600'}}>{("0" + (this.state.selectdate.getHours())).slice(-2)+":00"}</Text></View>
                                         {UIElements.drawGapV(10)}
                                         <Button onPress={()=>{}} buttonStyle={{backgroundColor:colors.yellowColor,height:30,width:'50%',alignSelf:'center'}} title='Confirm & Pay' titleStyle={{alignSelf:'center',fontSize:18}}/>
-                                       </View></View>
+                                        </View></View>
                                         </>
                                         )}
                                         </View>
                                         )
                                     }
                                 }
+                                
                                 

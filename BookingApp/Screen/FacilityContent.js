@@ -19,8 +19,9 @@ export default class FacilityContent extends Component {
     constructor(props){
         super(props);
         this.state={
-            facilityData:[],
+            facilityData:[],filters:[]
         }
+        this.applyFilter=this.applyFilter.bind(this);
     }
     getFacilityFromApiAsync = async (facilityURL) => {
         try {
@@ -53,26 +54,35 @@ export default class FacilityContent extends Component {
         }
         getallIcon(item)
         {
-            return(item.sports.map((data,index)=>{
-                var imagesc=this.getImage(data);
-                // console.log(imagesc.name+""+imagesc.image)
-                return(
-                    <>
-                    {imagesc.length>0&&
-                        <Image key={"image"+index} style={{height:20,width:20}} source={imagesc.image} PlaceholderContent={<ActivityIndicator/>}/>
+            return(
+                <FlatGrid 
+                style={{left:-10}}
+                fixed
+                itemDimension={(15)}
+                data={item.sports}
+                renderItem={({item,index})=>{
+                    var imagesc=this.getImage(item);
+                    return(<View key={"V"+index}>
+                    {imagesc.image!=undefined&&
+                        <Image key={"image"+index} style={{ tintColor:'white', height:15,width:15}} source={imagesc.image} PlaceholderContent={<ActivityIndicator/>}/>
                     }
-                    </>
-                    );
-                }
-                )
-                );
+                    </View>)
+                }}
+                // numColumns={4}
+                />
+               );
+            }
+
+            applyFilter(dataIn){
+                this.setState({filters:dataIn});
+                var faciltyurl=Api.getFacilities.replace('pageno',1).replace('pagesize',15);
+                this.getFacilityFromApiAsync(faciltyurl);
             }
             render() {
                 return (
                     <>
                     <HeaderTitle/>
-                    <FilterBar navigation={this.props.navigation}/>
-
+                    <FilterBar navigation={this.props.navigation} filtering={this.applyFilter}/>
                     <ScrollView style={{backgroundColor:appTheme.colors.background}} >
                     <FlatGrid
                     itemDimension={(screenWidth)}
@@ -90,24 +100,22 @@ export default class FacilityContent extends Component {
                         />
                         <View style={{position:'absolute',width: '100%' ,}}>
                         <Button buttonStyle={{backgroundColor:colors.yellowColor,width:100,alignSelf:'flex-end',height:20}} title='BOOK NOW' titleStyle={{alignSelf:'center',fontSize:12}}/>
-                        {UIElements.drawGapV(80)}
+                        {UIElements.drawGapV(55)}
                         <View style={{flexDirection:'row'}}>
                         {UIElements.drawGapH(10)}
                         <View style={{width:'80%'}}>
                         <Text style={{fontWeight:'bold',color:'white'}}>{item.name}</Text>
                         <Text style={[styles.locateTxt,{color:'white'}]}>{item.city}</Text>
-                        
                         {this.getallIcon(item)}
                         </View>
-                        {/* {UIElements.drawGapH(80)} */}
                         <View>
-                        <View style={{flexDirection:'row'}}>
+                        {/* <View style={{flexDirection:'row'}}>
                         <MaterialIcons name='location-on' size={20} color='white'/>
                         <Text style={{fontSize:12,color:'white'}} >{'10km'}</Text>
-                        </View>
+                        </View> */}
                         {UIElements.drawGapV(2)}
                         <View style={{flexDirection:'row'}}>
-                        <MaterialIcons name='star-border' size={20} color='white'/>
+                        <MaterialIcons name='star-border' size={18} color='white'/>
                         <Text style={{fontSize:12,alignSelf:'center',color:'white'}} >{item.rating}</Text></View>
                         </View>
                         </View>

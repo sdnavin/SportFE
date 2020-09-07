@@ -4,6 +4,7 @@ const Api={
     getGames:"http://demo.mobapi.sportfe.qa/api/Common/GetAllSports",
     getLocations:"http://demo.mobapi.sportfe.qa/api/Common/GetAllLocations",
     getFacilities:"http://demo.mobapi.sportfe.qa/api/Facility/GetAllFC?Page=pageno&PageSize=pagesize",
+    getFacilityDetail:"http://demo.mobapi.sportfe.qa/api/Facility/GetFCDetail/",
     location:"&LocationID=",
     sport:"&SportID=",
     registerUser:"https://demo.account.sportfe.com/api/MobApi/RegsiterMobile",
