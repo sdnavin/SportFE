@@ -15,23 +15,23 @@ export default class FilterBar extends Component {
             location: global.location,
             shortAddress:global.shortAddress,
             showOption:0,searchtext:'',
-            suggestions:[],allData:[]
+            suggestions:[],allData:this.props.AllData
         };
         this.suggestedOption=this.suggestedOption.bind(this);
     }
-    dataM=[];
+    
     componentDidMount(){
-        let t=0;
-        console.log(global.locations.length);
-        for(t=0;t<global.locations.length;t++){
-            var obj={name:global.locations[t].name,id:global.locations[t].id,selected:false}
-            this.dataM.push(obj);
-        }
-        for(t=0;t<global.sports.length;t++){
-            var obj={name:global.sports[t].name,id:global.sports[t].id,selected:false}
-            this.dataM.push(obj);
-        }
-        this.setState({allData:this.dataM});
+        // let t=0;
+        // console.log(global.locations.length);
+        // for(t=0;t<global.locations.length;t++){
+        //     var obj={name:global.locations[t].name,id:global.locations[t].id,selected:false,type:1}
+        //     this.dataM.push(obj);
+        // }
+        // for(t=0;t<global.sports.length;t++){
+        //     var obj={name:global.sports[t].name,id:global.sports[t].id,selected:false,type:2}
+        //     this.dataM.push(obj);
+        // }
+        // this.setState({allData:this.dataM});
         // this.allData.push(global.locations);
         // this.allData.push(global.sports);
     }
@@ -52,8 +52,8 @@ export default class FilterBar extends Component {
                 this.setState({suggestions:[]});
                 return;
             }
-            console.log(this.allData);
-            var currentData=this.allData.filter(data=>
+            console.log(this.state.allData);
+            var currentData=this.state.allData.filter(data=>
                 data.name.toLowerCase().includes(text.toLowerCase())
                 )
                 this.setState({suggestions:currentData});
@@ -86,12 +86,16 @@ export default class FilterBar extends Component {
                         var filterIt=this.props.filtering;
                         filterIt(allData);
                     }
+                    openFilter(){
+                        var filterIt=this.props.openFilterPage;
+                        filterIt();
+                    }
                     render() {
                         return (<>
                             <AppColors/>
                             <SafeAreaView style={styles.header} >
                             <View style={{flexDirection:'row',flex:1}} >
-                            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Filter')} style={{padding:5, flexDirection:'row',borderWidth:1,borderColor:appTheme.colors.border,borderRadius:5,justifyContent:'center'}} >
+                            <TouchableOpacity onPress={()=>this.openFilter()} style={{padding:5, flexDirection:'row',borderWidth:1,borderColor:appTheme.colors.border,borderRadius:5,justifyContent:'center'}} >
                             <Text style={{alignSelf:'center',color:appTheme.colors.text }}>Filters </Text>
                             <IonIcon name="ios-options" style={{color:appTheme.colors.text}} size={20} color='black'/>
                             </TouchableOpacity>

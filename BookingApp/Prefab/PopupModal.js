@@ -1,5 +1,5 @@
 import React, { Component, useState,useCallback,useMemo } from 'react';
-import {Image, View,Modal,StyleSheet,Dimensions,Text,Platform,TextInput,TouchableOpacity,FlatList, Button} from 'react-native';
+import {Image, View,Modal,StyleSheet,Dimensions,Text,Platform,TextInput,TouchableOpacity,FlatList,Alert, Button} from 'react-native';
 const { width } = Dimensions.get('window');
 const { height } = Dimensions.get('window');
 import { widthPercentageToDP } from 'react-native-responsive-screen';
@@ -18,11 +18,17 @@ import Api from '../constants/ApiLink';
 
 const configs = {
     identityserver: {
-      issuer: Api.identityServer,
-      clientId: 'interactive.public',
-      redirectUrl: 'io.identityserver.demo:/oauthredirect',
-      additionalParameters: {},
-      scopes: ['openid', 'profile', 'email', 'offline_access'],
+        issuer: 'https://demo.account.sportfe.com/',
+        clientId: 'QA.Sport.AdminPanel',
+        clientSecret : '#QA.Sport.FA.AdminPanel#',
+        redirectUrl: 'https://demo.facadmin.sportfe.qa/signin-oidcr',
+        scopes: ['openid','profile','roles','email','facilityid','QA.Sport.Admin.Api']
+
+    //   issuer:Api.identityServer,
+    //   clientId: 'Sportfe_Android',
+    //   clientSecret : 'qa#sportfe#android',
+    //   redirectUrl:'io.identityserver.demo:/oauthredirect',
+    //   scopes:['openid', 'profile', 'offline_access']
   
       // serviceConfiguration: {
       //   authorizationEndpoint: 'https://demo.identityserver.io/connect/authorize',
@@ -315,7 +321,7 @@ const PopupModal=(props) =>{
            <Text>{authState.scopes.join(', ')}</Text>
          </>
        ) : (
-         <Text>{authState.hasLoggedInOnce ? 'Goodbye.' : 'Hello, stranger.'}</Text>
+         <Text>{authState.hasLoggedInOnce ? 'Goodbye.' : 'Hello stranger'}</Text>
        )}
 
        <>
