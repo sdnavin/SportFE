@@ -2,13 +2,19 @@ import React, { Component } from 'react'
 import { Alert,View,Text, StyleSheet, SafeAreaView, TextInput, ScrollView } from 'react-native'
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import * as UIElements from '../Tools/UIElements';
-import AppColors, { colors, appTheme } from '../constants/AppColors';
+import AppColors from '../constants/AppColors';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {TouchableOpacity} from 'react-native-gesture-handler'
+import { useTheme } from '@react-navigation/native';
 
+// Wrap and export
+export default function(props) {
+    const theme = useTheme();
+    return <FilterBar {...props} theme={theme} />;
+}
 
-export default class FilterBar extends Component {
+class FilterBar extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -75,9 +81,15 @@ export default class FilterBar extends Component {
                         </TouchableOpacity>
                         )}))
                     }
-                    filterItem(indexIn){
+                    
+                    filterItem(citem){
                         const { allData } = this.state;
-                        allData[indexIn].selected=!allData[indexIn].selected;
+                        
+                        allData.map((item,index)=>{
+                            if(allData[index]==citem){
+                                allData[index].selected=!allData[index].selected;
+                            }
+                        })
                         
                         // update state
                         this.setState({
@@ -86,24 +98,37 @@ export default class FilterBar extends Component {
                         var filterIt=this.props.filtering;
                         filterIt(allData);
                     }
+                    
+                    // filterItem(indexIn){
+                    //     const { allData } = this.state;
+                    //     allData[indexIn].selected=!allData[indexIn].selected;
+                    
+                    //     // update state
+                    //     this.setState({
+                    //         allData,
+                    //     });
+                    //     var filterIt=this.props.filtering;
+                    //     filterIt(allData);
+                    // }
                     openFilter(){
                         var filterIt=this.props.openFilterPage;
                         filterIt();
                     }
                     render() {
+                        const { colors } = this.props;
                         return (<>
-                            <AppColors/>
+                            {/* <AppColors/> */}
                             <SafeAreaView style={styles.header} >
                             <View style={{flexDirection:'row',flex:1}} >
-                            <TouchableOpacity onPress={()=>this.openFilter()} style={{padding:5, flexDirection:'row',borderWidth:1,borderColor:appTheme.colors.border,borderRadius:5,justifyContent:'center'}} >
-                            <Text style={{alignSelf:'center',color:appTheme.colors.text }}>Filters </Text>
-                            <IonIcon name="ios-options" style={{color:appTheme.colors.text}} size={20} color='black'/>
+                            <TouchableOpacity onPress={()=>this.openFilter()} style={{padding:5, flexDirection:'row',borderWidth:1,borderColor:colors.border,borderRadius:5,justifyContent:'center'}} >
+                            <Text style={{alignSelf:'center',color:colors.text }}>Filters </Text>
+                            <IonIcon name="ios-options" style={{color:colors.text}} size={20} color='black'/>
                             </TouchableOpacity>
                             <ScrollView style={{marginLeft:5,marginRight:10}} horizontal showsHorizontalScrollIndicator={false} >
                             {this.state.allData.map((item,index)=>{
                                 var cItem=item;
-                                return( <TouchableOpacity onPress={()=>{this.filterItem(index)}} key={'FTo'+index} style={{marginLeft:5, padding:5, flexDirection:'row',borderWidth:1,borderColor:item.selected?colors.sportColor: appTheme.colors.border,borderRadius:5,justifyContent:'center'}} >
-                                <Text  key={'FT'+index} style={{alignSelf:'center',color:item.selected?colors.sportColor:appTheme.colors.text }}>{item.name}</Text>
+                                return( <TouchableOpacity onPress={()=>{this.filterItem(cItem)}} key={'FTo'+index} style={{marginLeft:5, padding:5, flexDirection:'row',borderWidth:1,borderColor:item.selected?colors.sportColor: colors.border,borderRadius:5,justifyContent:'center'}} >
+                                <Text  key={'FT'+index} style={{alignSelf:'center',color:item.selected?colors.sportColor:colors.text }}>{item.name}</Text>
                                 </TouchableOpacity>)
                             })}
                             </ScrollView>

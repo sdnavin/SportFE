@@ -3,7 +3,7 @@ import { DefaultTheme,
   DarkTheme, } from '@react-navigation/native';
 import { useColorScheme,View} from 'react-native';
 
-export var appTheme= DarkTheme;
+var appTheme= DefaultTheme;
 
 export default function AppColors() {
   
@@ -13,24 +13,23 @@ export default function AppColors() {
     ...DarkTheme,
     colors: {
       ...DarkTheme.colors,
-      sportColor:'#00bb68',text:'#4e5258',border:'white'
+      sportColor:'#00bb68',text:'#4e5258',border:'white',background:'#323840'
     },
   };
   
   const appLightTheme = {
     ...DefaultTheme,
     colors: {
-      ...DefaultTheme.colors,sportColor:'#00bb68',text:'#4e5258',border:'black'
+      ...DefaultTheme.colors,sportColor:'#00bb68',text:'#4e5258',border:'black',background:'gray'
       
     },
   };
 
   appTheme=(appScheme=='dark')?appDarkTheme:appLightTheme
-  // console.log(appTheme);
+  console.log(appTheme);
 
   
-  return(
-  <View theme={appTheme}/>);
+  return(appTheme);
 }
 
 export const colors={

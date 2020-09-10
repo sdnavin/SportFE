@@ -1,46 +1,47 @@
 import React, { Component } from 'react'
 import { NavigationContainer,DefaultTheme,
     DarkTheme, } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '../Screen/HomeScreen';
-import FacilityScreen from '../Screen/FacilityScreen';
-import EventScreen from '../Screen/EventScreen';
-import OfferScreen from '../Screen/OfferScreen';
-import { Dimensions, StyleSheet,useColorScheme,Appearance, View} from 'react-native'
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { appTheme, colors } from '../constants/AppColors';
-// import { AppearanceProvider, useColorScheme as appcolorScheme } from 'react-native-appearance';
-
-export default function BottomBar() {
+    import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+    import HomeScreen from '../Screen/HomeScreen';
+    import FacilityScreen from '../Screen/FacilityScreen';
+    import EventScreen from '../Screen/EventScreen';
+    import AccountScreen from '../Screen/AccountScreen';
+    import { Dimensions, StyleSheet,useColorScheme,Appearance, View} from 'react-native'
+    import Ionicons from 'react-native-vector-icons/Ionicons';
+    import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+    import AppColors from '../constants/AppColors';
+    import { AppearanceProvider, useColorScheme as appcolorScheme } from 'react-native-appearance';
+    import { useTheme } from '@react-navigation/native';
     
-    // render() {
+    export default function BottomBar() {
+        const { colors } = useTheme();
         const Tab = createBottomTabNavigator();
-
+        
         const colorScheme = useColorScheme();
-
+        
         const appDarkTheme = {
             ...DarkTheme,
             colors: {
-              ...DarkTheme.colors,
+                ...DarkTheme.colors,
+                sportColor:'#00bb68',text:'#4e5258',border:'white',background:'#323840'
             },
-          };
-
-          const appLightTheme = {
+        };
+        
+        const appLightTheme = {
             ...DefaultTheme,
             colors: {
-              ...DefaultTheme.colors,
-              primary: 'rgb(255, 45, 85)',
+                ...DefaultTheme.colors,sportColor:'#00bb68',text:'#4e5258',border:'black',background:'gray'
+                
             },
-          };
+        };
         // global.appThemebgcolor=(colorScheme=='dark')?appDarkTheme.colors.background:appLightTheme.colors.background;
         // console.log(global.appThemebgcolor);
         // global.appTheme=(colorScheme=='dark')?appDarkTheme:appLightTheme;
         return (
-            // <AppearanceProvider>
-            // <NavigationContainer theme={ colorScheme=='dark'?appDarkTheme:appLightTheme} style={styles.NavigationBar}>
-            <NavigationContainer>
-
+            <AppearanceProvider>
+            <NavigationContainer theme={ colorScheme=='dark'?appDarkTheme:appLightTheme} style={styles.NavigationBar}>
+            {/* // <NavigationContainer theme={AppColors()}> */}
+            
             <Tab.Navigator
             initialRouteName="Home"
             screenOptions={({ route }) => ({
@@ -72,45 +73,45 @@ export default function BottomBar() {
                 inactiveBackgroundColor:colors.sportColor,
                 backgroundColor:colors.sportColor,
                 activeTintColor: colors.yellowColor,
-                inactiveTintColor: appTheme.colors.border,
+                inactiveTintColor: colors.border,
                 labelStyle: {
                     fontSize: 12,
-                    margin:10,paddingBottom:5,
+                    margin:10,paddingBottom:5,color:colors.text
                 },
-                  style: {paddingTop:10,
+                style: {paddingTop:10,
                     height: 50,
                     backgroundColor: colors.sportColor,
-                  },
+                },
                 
             }}
             >
-
+            
             <Tab.Screen name="Home" component={HomeScreen}/>
-            <Tab.Screen name="Facilty" component={FacilityScreen}/>
+            {/* <Tab.Screen name="Facilty" component={FacilityScreen}/> */}
             {/* <Tab.Screen name="Events" component={EventScreen}/> */}
             <Tab.Screen name="Favourites" component={HomeScreen}/>
-            <Tab.Screen name="My Account" component={OfferScreen}/>
+            <Tab.Screen name="My Account" component={AccountScreen}/>
             
             </Tab.Navigator> 
             </NavigationContainer>
-            // </AppearanceProvider>
+            </AppearanceProvider>
             )
-        // }
-    }
-    const styles = StyleSheet.create({
-        NavigationBar:{
-            // backgroundColor:'red',
-            // color:colors.sportColor,
-            // tintColor:colors.sportColor,
-            // backgroundColor:colors.sportColor,
-            // shadowColor: "#000",
-            // shadowOffset: {
-            //     width: 0,
-            //     height: 2,
-            // },
-            // shadowOpacity: 0.25,
-            // shadowRadius: 10,
-            // elevation: 5,
-        },
-    })
-    
+            // }
+        }
+        const styles = StyleSheet.create({
+            NavigationBar:{
+                // backgroundColor:'red',
+                // color:colors.sportColor,
+                // tintColor:colors.sportColor,
+                // backgroundColor:colors.sportColor,
+                // shadowColor: "#000",
+                // shadowOffset: {
+                //     width: 0,
+                //     height: 2,
+                // },
+                // shadowOpacity: 0.25,
+                // shadowRadius: 10,
+                // elevation: 5,
+            },
+        })
+        

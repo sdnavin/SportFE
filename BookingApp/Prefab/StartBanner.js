@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
-import colors from '../constants/AppColors'
+import {colors,appTheme } from '../constants/AppColors'
 import * as UIElements from '../Tools/UIElements'
 export default class StartBanner extends Component {
     // constructor(props){
@@ -9,7 +9,7 @@ export default class StartBanner extends Component {
     render() {
         return (
             <>
-            <View style={{backgroundColor:colors.sportColor,borderRadius:20,height:150,overflow:'hidden'}} >
+            <View style={{backgroundColor:colors.sportColor,borderRadius:20,height:150,overflow:'hidden',margin:10}} >
             <Text style={{padding:20,fontSize:20,fontWeight:'500'}}>Havnt got your ground yet?</Text>
             {UIElements.drawGapV(35)}
             <TouchableOpacity onPress={()=>{this.props.navigation.navigate('Facilty')}}

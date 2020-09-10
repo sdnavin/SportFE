@@ -18,7 +18,9 @@ const configs = {
     issuer: 'https://demo.identityserver.io',
     clientId: 'interactive.public',
     redirectUrl: 'io.identityserver.demo:/oauthredirect',
-    additionalParameters: {},
+    additionalParameters:{
+      prompt: 'login'
+    },
     scopes: ['openid', 'profile', 'email', 'offline_access'],
 
     // serviceConfiguration: {
@@ -67,7 +69,7 @@ export default function Authentication () {
         const newAuthState = await authorize(config);
 
         setAuthState({
-          hasLoggedInOnce: true,
+          hasLoggedInOnce: false,
           provider: provider,
           ...newAuthState
         });

@@ -134,10 +134,10 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-
+multiDexEnabled true
         manifestPlaceholders=[
-            appAuthRedirectScheme:'https://demo.facadmin.sportfe.qa/signin-oidc'
-            // appAuthRedirectScheme:'io.identityserver.demo'
+            // appAuthRedirectScheme:'https://demo.facadmin.sportfe.qa/signin-oidc'
+            appAuthRedirectScheme:'io.identityserver.demo'
         ]
     }
     splits {

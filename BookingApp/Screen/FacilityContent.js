@@ -4,7 +4,7 @@ import { FlatGrid } from 'react-native-super-grid';
 import { View,Text,Dimensions, ActivityIndicator,StyleSheet, FlatList,TouchableOpacity, ScrollView } from 'react-native';
 import { Image, Card, Button, Overlay, Input, CheckBox } from 'react-native-elements';
 import FacilityList from '../constants/FacilityData'
-import { appTheme, colors } from '../constants/AppColors';
+import AppColors, { appTheme, colors } from '../constants/AppColors';
 import * as UIElements from '../Tools/UIElements';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Api from '../constants/ApiLink';
@@ -12,18 +12,25 @@ import gamesIn from '../constants/sportDetails'
 import HeaderTitle from './HeaderTitle';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import { useTheme } from '@react-navigation/native';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
+// Wrap and export
+export default function(props) {
+    const theme = useTheme();
+    return <FacilityContent {...props} theme={theme} />;
+}
 
-export default class FacilityContent extends Component {
+class FacilityContent extends Component {
     constructor(props){
         super(props);
         this.state={
-            loaded:0,facilityData:[],filters:[],gamesList:global.sports,locationsList:global.locations,visibleFilter:false,allData:[]
+            loaded:0,reload:0,facilityData:[],filters:[],gamesList:global.sports,locationsList:global.locations,visibleFilter:false,allData:[],venuetext:'',onlinebook:false
         }
         this.applyFilter=this.applyFilter.bind(this);
         this.toggleFilter=this.toggleFilter.bind(this);
+        this.clearAllFilter=this.clearAllFilter.bind(this);
     }
     
     
@@ -41,7 +48,8 @@ export default class FacilityContent extends Component {
             let jsonObj = await response.text();
             console.log(jsonObj);
             global.Facilities=(JSON.parse(jsonObj));
-            this.setState({facilityData:JSON.parse(jsonObj),loaded:1})
+            var filterData=global.Facilities.filter(data=>data.bookingType.toLowerCase().includes('online'));
+            this.setState({facilityData:this.state.onlinebook?filterData:JSON.parse(jsonObj),loaded:1,reload:1})
             //   return json.movies;
         } catch (error) {
             console.error(error);
@@ -106,7 +114,7 @@ export default class FacilityContent extends Component {
             applyFilter(dataIn){
                 console.log(dataIn);
                 
-                this.setState({filters:dataIn});
+                this.setState({filters:dataIn,loaded:0});
                 var faciltyurl=Api.getFacilities;
                 var locations=dataIn.filter(data=>data.type==1&&data.selected);
                 
@@ -121,7 +129,7 @@ export default class FacilityContent extends Component {
                 })
                 
                 var details = {
-                    'name': "",
+                    'name': this.state.venuetext,
                     'locations': LocationIDs,
                     'sports': SportIDs,
                     'page':1,
@@ -131,22 +139,38 @@ export default class FacilityContent extends Component {
                 this.getFacilityFromApiAsync(faciltyurl,details);
             }
             toggleFilter(){
-                this.setState({visibleFilter:!this.state.visibleFilter})
+                this.setState({visibleFilter:!this.state.visibleFilter,venuetext:''})
             }
-            filterItem(indexIn){
+            clearAllFilter(){
+                const{allData}=this.state;
+                allData.map((item,index)=>{
+                        allData[index].selected=false;
+                })
+                this.setState({allData,venuetext:'',onlinebook:false});
+            }
+            filterItem(citem){
                 const { allData } = this.state;
-                allData[indexIn].selected=!allData[indexIn].selected;
-                
+                console.log(citem);        
+
+                allData.map((item,index)=>{
+                    if(allData[index].id===citem.id){
+                        allData[index].selected=!allData[index].selected;
+                    }
+                })
                 // update state
                 this.setState({
                     allData,
                 });
             }
             render() {
+                const { colors } = this.props;
                 if(this.state.loaded==0){
                     return (
                         <>
                         <HeaderTitle/>
+                        {this.state.reload==1&&
+                            <FilterBar navigation={this.props.navigation} AllData={this.state.allData} openFilterPage={this.toggleFilter} filtering={this.applyFilter}/>
+                        }
                         <ActivityIndicator/>
                         </>
                         )
@@ -162,7 +186,7 @@ export default class FacilityContent extends Component {
                                 <TouchableOpacity onPress={()=>{
                                     this.props.navigation.navigate("Reserve",{facilityInfo:item});
                                 }} ><>
-                                <Card containerStyle={{backgroundColor:appTheme.colors.background,borderWidth:0,padding:0,margin:0, width:'100%',marginTop:10}}>
+                                <Card containerStyle={{backgroundColor:colors.background,borderWidth:0,padding:0,margin:0, width:'100%',marginTop:10}}>
                                 <View style={{flex:1,width:'100%',height:150}}>
                                 <Image
                                 source={{ uri:item.images[0]}}
@@ -170,7 +194,7 @@ export default class FacilityContent extends Component {
                                 PlaceholderContent={<ActivityIndicator/>}
                                 />
                                 <View style={{position:'absolute',width: '100%' ,}}>
-                                <Button buttonStyle={{backgroundColor:colors.yellowColor,width:100,alignSelf:'flex-end',height:20}} title='BOOK NOW' titleStyle={{alignSelf:'center',fontSize:12}}/>
+                                <Button disabled={!item.bookingType.toLowerCase().includes('online')} buttonStyle={{backgroundColor:colors.yellowColor,width:100,alignSelf:'flex-end',height:20}} title='BOOK NOW' titleStyle={{alignSelf:'center',fontSize:12}}/>
                                 {UIElements.drawGapV(55)}
                                 <View style={{flexDirection:'row'}}>
                                 {UIElements.drawGapH(10)}
@@ -196,17 +220,19 @@ export default class FacilityContent extends Component {
                         }/>
                         <Overlay overlayStyle={{width:'90%',height:'55%'}} backdropStyle={{color:colors.blackTransparent}} isVisible={this.state.visibleFilter} onBackdropPress={()=>this.toggleFilter()}>
                         <View style={{width:'100%',height:'100%'}}>
-                        <View style={{padding:5, flexDirection:'row',borderWidth:1,borderColor:appTheme.colors.border,borderRadius:5,justifyContent:'center'}} >
-                        <Text style={{alignSelf:'center',color:appTheme.colors.text }}>Filters </Text>
-                        <IonIcon name="ios-options" style={{color:appTheme.colors.text}} size={20} color='black'/></View>
+                        <View style={{padding:5, flexDirection:'row',borderWidth:1,borderColor:colors.border,borderRadius:5,justifyContent:'center'}} >
+                        <Text style={{alignSelf:'center',color:colors.text }}>Filters </Text>
+                        <IonIcon name="ios-options" style={{color:colors.text}} size={20} color='black'/></View>
                         {UIElements.drawGapV(15)}
                         <Text style={styles.title}>Sports</Text>
                         <View style={{height:30,marginBottom:20}}>
                         <ScrollView style={{marginRight:0}} horizontal showsHorizontalScrollIndicator={false} >
-                        {this.state.gamesList.map(( item,index ) => 
-                             {return(
-                            <TouchableOpacity onPress={()=>{this.filterItem(index)}} key={'FTo'+index} style={{ marginLeft:5, padding:5,borderWidth:1,borderColor:item.selected?colors.sportColor: appTheme.colors.border,borderRadius:5,justifyContent:'center'}} >
-                            <Text  key={'FT'+index} style={{alignSelf:'center',color:item.selected?colors.sportColor:appTheme.colors.text }}>{item.name}</Text>
+                        {this.state.allData.filter(data=>data.type==2).map(( item,index ) => 
+                             {
+                                 let cItem=item;
+                                 return(
+                            <TouchableOpacity onPress={()=>{this.filterItem(cItem)}} key={'FTo'+index} style={{ marginLeft:5, padding:5,borderWidth:1,borderColor:item.selected?colors.sportColor: colors.border,borderRadius:5,justifyContent:'center'}} >
+                            <Text  key={'FT'+index} style={{alignSelf:'center',color:item.selected?colors.sportColor:colors.text }}>{item.name}</Text>
                             </TouchableOpacity>
                             
                         )})
@@ -215,16 +241,19 @@ export default class FacilityContent extends Component {
                         <View style={{height:30,marginBottom:20}}>
                         
                         <ScrollView style={{marginRight:0}} horizontal showsHorizontalScrollIndicator={false} >
-                        {this.state.locationsList.map(( item,index ) => 
-                            {return(
-                            <TouchableOpacity onPress={()=>{this.filterItem(index)}} key={'FTo'+index} style={{ marginLeft:5, padding:5,borderWidth:1,borderColor:item.selected?colors.sportColor: appTheme.colors.border,borderRadius:5,justifyContent:'center'}} >
-                            <Text  key={'FT'+index} style={{alignSelf:'center',color:item.selected?colors.sportColor:appTheme.colors.text }}>{item.name}</Text>
+                        {this.state.allData.filter(data=>data.type==1).map(( item,index ) => 
+                            {
+                                let cItem=item;
+                                return(
+                            <TouchableOpacity onPress={()=>{this.filterItem(cItem)}} key={'FTo'+index} style={{ marginLeft:5, padding:5,borderWidth:1,borderColor:item.selected?colors.sportColor: colors.border,borderRadius:5,justifyContent:'center'}} >
+                            <Text  key={'FT'+index} style={{alignSelf:'center',color:item.selected?colors.sportColor:colors.text }}>{item.name}</Text>
                             </TouchableOpacity>)}
                             )
                         }</ScrollView></View>
                         <View style={{height:50}}>
                         <Input
                         placeholder='Name of the Venue'
+                        onChangeText={(text)=>{this.setState({venuetext:text})}}
                         />
                         </View>
                         {UIElements.drawGapV(15)}
@@ -272,7 +301,7 @@ export default class FacilityContent extends Component {
                     fontSize:15,
                     // color:'gray',
                     justifyContent:'center',alignItems:'center',
-                    backgroundColor:appTheme.colors.sportColor,
+                    backgroundColor:colors.sportColor,
                     fontWeight:'800'
                 }
             });

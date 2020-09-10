@@ -7,7 +7,9 @@ const Api={
     getFacilityDetail:"http://demo.mobapi.sportfe.qa/api/Facility/GetFCDetail/",
     location:"&LocationID=",
     sport:"&SportID=",
+    homeSlides:'http://demo.mobapi.sportfe.qa/api/Common/GetHomeSlides',
     registerUser:"https://demo.account.sportfe.com/api/MobApi/RegsiterMobile",
-    identityServer:'https://demo.account.sportfe.com/',//'https://demo.account.sportfe.com/'
+    identityServer:'https://demo.account.sportfe.com/',//'https://demo.account.sportfe.com/',
+    userProfile:'http://demo.mobapi.sportfe.qa/api/Common/UserProfile/'
 }
 export default Api;

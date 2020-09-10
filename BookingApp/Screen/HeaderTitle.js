@@ -8,7 +8,7 @@ export default class HeaderTitle extends Component {
         return (
             <SafeAreaView>
                 <View style={{backgroundColor:colors.sportColor,height:60,width:"100%"}}>
-                <Text style={{alignSelf:'flex-end',color:'white',fontWeight:'bold',fontSize:18,marginRight:10}}>
+                <Text style={{alignSelf:'flex-end',color:'white',fontWeight:'bold',fontSize:18,marginTop:5,marginRight:10}}>
                     Hello!
                 </Text>
                 <Text>

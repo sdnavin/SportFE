@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { SafeAreaView, TouchableOpacity,Text,View, StyleSheet, Switch,Platform,  } from 'react-native'
 import * as UIElements from '../Tools/UIElements'
-import colors, { appTheme } from '../constants/AppColors'
 import Fontisto from 'react-native-vector-icons/Fontisto'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import CheckBox from '@react-native-community/checkbox'
@@ -9,9 +8,15 @@ import CheckBox from '@react-native-community/checkbox'
 // import DateTimePicker from '@react-native-community/datetimepicker';
 import DateTimeShower from './DateTimeShower'
 import { FlatGrid } from 'react-native-super-grid';
+import { useTheme } from '@react-navigation/native'
 
+// Wrap and export
+export default function(props) {
+    const theme = useTheme();
+    return <FilterPage {...props} theme={theme} />;
+}
 
-export default class FilterPage extends Component {
+class FilterPage extends Component {
     
     constructor(props){
         super(props);
@@ -51,6 +56,8 @@ export default class FilterPage extends Component {
         this.setState({endTime:currentDate,showEndTime:this.GetTime(currentDate)});
     };
     render() {
+        const { colors } = this.props;
+
         return (
             <View style={{width:'100%',height:'100%'}}>
             
@@ -126,7 +133,7 @@ export default class FilterPage extends Component {
     />
     
     <View style={styles.header} >
-    <TouchableOpacity style={styles.button} onPress={this.clearAllFilter}>
+    <TouchableOpacity style={[styles.button,{backgroundColor:colors.background}]} onPress={this.clearAllFilter}>
     <Text >CLEAR ALL</Text></TouchableOpacity>
     <TouchableOpacity style={[styles.button,{backgroundColor:'#fbbc04'}]} onPress={()=>{this.props.navigation.goBack()}}>
     <Text >APPLY</Text></TouchableOpacity>
@@ -204,6 +211,7 @@ GetTime(dateIn) {
 }
 }
 const styles= StyleSheet.create({
+    
     header:{
         position:'absolute',bottom:0,
         flexDirection:'row',justifyContent:'space-around',
@@ -221,7 +229,7 @@ const styles= StyleSheet.create({
         // color:'gray',
         justifyContent:'center',alignItems:'center',
         width:'50%',
-        backgroundColor:appTheme.colors.sportColor,
+        // backgroundColor:this.props.colors.sportColor,
         fontWeight:'500'
     },tabbutton:{
         backgroundColor:'transparent',
