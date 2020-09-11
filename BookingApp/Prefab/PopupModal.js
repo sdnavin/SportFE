@@ -5,7 +5,6 @@ const { height } = Dimensions.get('window');
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import Authentication, * as Auth from '../Prefab/Authentication'
 import * as UIElements from '../Tools/UIElements'
-// import MapModal from './MapModal';
 import games from '../constants/sportDetails'
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -13,6 +12,9 @@ import { authorize, refresh, revoke, prefetchConfiguration } from 'react-native-
 import Api from '../constants/ApiLink';
 import { Buffer } from 'buffer';
 import { useTheme } from '@react-navigation/native';
+import MapModalf from './MapModal';
+
+export default function PopupModal(props) {
 
 const { colors } = useTheme();
 
@@ -72,7 +74,7 @@ const defaultAuthState = {
     refreshToken: '',idToken:'',idTokenJSON:''
 };
 
-const PopupModal=(props) =>{
+// const PopupModal=(props) =>{
     
     //Authendication
     
@@ -97,12 +99,30 @@ const PopupModal=(props) =>{
                     provider: provider,
                     ...newAuthState
                 });
+               
             } catch (error) {
                 Alert.alert('Failed to log in', error.message);
             }
         },
         [authState]
+        
         );
+
+        const getUserFromApiAsync = async (userURL) => {
+            try {
+                
+                let response = await fetch(userURL);
+                let jsonObj = await response.text();
+                console.log(jsonObj);
+                global.User=(JSON.parse(jsonObj));
+                if(jsonObj!=undefined){
+                    OnSubmit(global.User);
+                }
+                //   return json.movies;
+            } catch (error) {
+                console.error(error);
+            }
+        };
         
         const handleRefresh = useCallback(async () => {
             try {
@@ -121,6 +141,13 @@ const PopupModal=(props) =>{
                 Alert.alert('Failed to refresh token', error.message);
             }
         }, [authState]);
+
+        React.useEffect(() => {
+            if (authState.accessToken.length > 0) {
+              console.log(authState);
+              getToken();
+            }
+          }, [authState]);
         
         const handleRevoke = useCallback(async () => {
             try {
@@ -157,20 +184,20 @@ const PopupModal=(props) =>{
         // constructor(props){
         //     super(props);
         // this.OnSubmit = this.OnSubmit.bind(this);
-        this.state={
-            val:'',
-            pages:0,
-            showError:false,
-            gamesIn:games,
-            visible:true,showMap:false,
+        // this.state={
+        //     val:'',
+        //     pages:0,
+        //     showError:false,
+        //     gamesIn:games,
+        //     visible:true,showMap:false,
             
-            hasLoggedInOnce: false,
-            provider: "",
-            accessToken: "",
-            accessTokenExpirationDate: "",
-            refreshToken: ""
+        //     hasLoggedInOnce: false,
+        //     provider: "",
+        //     accessToken: "",
+        //     accessTokenExpirationDate: "",
+        //     refreshToken: ""
             
-        }
+        // }
         //     this.signMeUp=this.signMeUp.bind(this);
         //     this.updateSelection=this.updateSelection.bind(this);
         // }
@@ -201,15 +228,15 @@ const PopupModal=(props) =>{
                     <>
                     {UIElements.drawGapV(20)}
                     {/* <Text style={styles.heading}>Start Booking the Facilties and Events</Text> */}
-                    <TextInput style={[styles.inputBox,{color:colors.text,borderColor:colors.sportColor}]} placeholder="Name" placeholderTextColor={colors.text} ></TextInput>
+                    <TextInput style={[styles.inputBox,{color:colors.text,borderColor:colors.sportColor,backgroundColor:colors.background}]} placeholder="Name" placeholderTextColor={colors.text} ></TextInput>
                     {UIElements.drawGapV(20)}
                     
-                    <TextInput style={[styles.inputBox,{color:colors.text,borderColor:colors.sportColor}]} placeholder="Email" placeholderTextColor={colors.text} ></TextInput>
+                    <TextInput style={[styles.inputBox,{color:colors.text,borderColor:colors.sportColor,backgroundColor:colors.background}]} placeholder="Email" placeholderTextColor={colors.text} ></TextInput>
                     {UIElements.drawGapV(10)}
-                    <Text >OR</Text>
+                    <Text style={{color:colors.text}} >OR</Text>
                     {UIElements.drawGapV(10)}
                     
-                    <TextInput style={[styles.inputBox,{color:colors.text,borderColor:colors.sportColor}]} placeholder="Phone" placeholderTextColor={colors.text} ></TextInput>
+                    <TextInput style={[styles.inputBox,{color:colors.text,borderColor:colors.sportColor,backgroundColor:colors.background}]} placeholder="Phone" placeholderTextColor={colors.text} ></TextInput>
                     {UIElements.drawGapV(20)}
                     <TouchableOpacity onPress={()=>{signMeUp()}} >
                     <Image style={{width:40,height:40}}  source={require('../assets/Asset3.png')}></Image></TouchableOpacity>
@@ -228,16 +255,16 @@ const PopupModal=(props) =>{
                         <View style={{alignContent:'center',margin:20}}>
                         {UIElements.drawGapV(20)}
                         
-                        <Text>We have send you, 6 digit verification code (OTP) to your email and Phone number</Text>
+                        <Text style={{color:colors.text}}>We have send you, 6 digit verification code (OTP) to your email and Phone number</Text>
                         {UIElements.drawGapV(20)}
                         
                         <View style={{flex:1,flexDirection:'row',justifyContent:'space-around'}} >
-                        <TextInput textAlign={'center'}  style={[styles.inputBox,{color:colors.text,borderColor:colors.sportColor,fontSize:25,padding:0, width:45,height:45}]} ></TextInput>
-                        <TextInput textAlign={'center'}  style={[styles.inputBox,{color:colors.text,borderColor:colors.sportColor,fontSize:25,padding:0,width:45,height:45}]} ></TextInput>
-                        <TextInput  textAlign={'center'}  style={[styles.inputBox,{color:colors.text,borderColor:colors.sportColor,fontSize:25,padding:0,width:45,height:45}]} ></TextInput>
-                        <TextInput textAlign={'center'}  style={[styles.inputBox,{color:colors.text,borderColor:colors.sportColor,fontSize:25,padding:0,width:45,height:45}]} ></TextInput>
-                        <TextInput textAlign={'center'}  style={[styles.inputBox,{color:colors.text,borderColor:colors.sportColor,fontSize:25,padding:0,width:45,height:45}]} ></TextInput>
-                        <TextInput textAlign={'center'}  style={[styles.inputBox,{color:colors.text,borderColor:colors.sportColor,fontSize:25,padding:0,width:45,height:45}]} ></TextInput>
+                        <TextInput textAlign={'center'}  style={[styles.inputBox,{color:colors.text,borderColor:colors.sportColor,backgroundColor:colors.background,fontSize:25,padding:0, width:45,height:45}]} ></TextInput>
+                        <TextInput textAlign={'center'}  style={[styles.inputBox,{color:colors.text,borderColor:colors.sportColor,backgroundColor:colors.background,fontSize:25,padding:0,width:45,height:45}]} ></TextInput>
+                        <TextInput  textAlign={'center'}  style={[styles.inputBox,{color:colors.text,borderColor:colors.sportColor,backgroundColor:colors.background,fontSize:25,padding:0,width:45,height:45}]} ></TextInput>
+                        <TextInput textAlign={'center'}  style={[styles.inputBox,{color:colors.text,borderColor:colors.sportColor,backgroundColor:colors.background,fontSize:25,padding:0,width:45,height:45}]} ></TextInput>
+                        <TextInput textAlign={'center'}  style={[styles.inputBox,{color:colors.text,borderColor:colors.sportColor,backgroundColor:colors.background,fontSize:25,padding:0,width:45,height:45}]} ></TextInput>
+                        <TextInput textAlign={'center'}  style={[styles.inputBox,{color:colors.text,borderColor:colors.sportColor,backgroundColor:colors.background,fontSize:25,padding:0,width:45,height:45}]} ></TextInput>
                         </View>
                         {UIElements.drawGapV(20)}
                         <View style={{flex:1,flexDirection:'row',justifyContent:'space-evenly'}} >
@@ -257,8 +284,8 @@ const PopupModal=(props) =>{
                         </View>
                         );
                     }else if(pages==2){
-                        return(<View></View>
-                            // <MapModal onDone={OnDone.bind(this)}/>
+                        return(
+                            <MapModalf theme={colors} onDone={OnDone.bind(this)}/>
                             );
                         }else if(pages==3){
                             return(
@@ -266,22 +293,29 @@ const PopupModal=(props) =>{
                                 {UIElements.drawGapV(10)}
                                 
                                 <Text style={{alignSelf:'center',color:colors.text}} >Choose your Favourite Sports</Text>
-                                {UIElements.drawGapV(20)}
+                                {UIElements.drawGapV(10)}
                                 
-                                <ScrollView  horizontal
+                                <ScrollView  horizontal showsHorizontalScrollIndicator={false} style={{borderWidth:2,alignContent:'center'}}
                                 >
                                 <FlatList
-                                data={gamesIn}
-                                renderItem={({ item,index}) => (
-                                    <TouchableOpacity onPress={()=>{updateSelection(index)}}
-                                    style={{ flexDirection: 'column', borderColor:(item.selected?colors.sportColor: colors.text), margin: 5,borderWidth:1,borderRadius:10,width:70,height:70,justifyContent:'center' }}>
+                                style={{borderWidth:1,alignContent:'center',alignSelf:'center'}}
+                                data={gamesOut}
+                                extraData={gamesIn}
+                                renderItem={({item,index}) => 
+                                {
+                                    var cIndex=index;
+                                    var cItem=item;
+                                return(
+                                    <TouchableOpacity onPress={()=>{updateSelection(cIndex)}}
+                                    style={{ flexDirection: 'column', borderColor:(cItem.selected?colors.sportColor: colors.text), margin: 5,borderWidth:1,borderRadius:10,width:70,height:70,justifyContent:'center' }}>
                                     <Image
                                     source={item.image}
-                                    style={{ width: 40 , height: 40,tintColor:(item.selected?colors.sportColor: colors.text),alignSelf:'center' }}
+                                    style={{ width: 40 , height: 40,tintColor:(cItem.selected?colors.sportColor: colors.text),alignSelf:'center' }}
                                     />
-                                    <Text style={{alignSelf:'center',fontSize:10,color:(item.selected?colors.sportColor: colors.text)}}>{item.name}</Text>
+                                    <Text style={{alignSelf:'center',fontSize:10,color:(cItem.selected?colors.sportColor: colors.text)}}>{item.name}</Text>
                                     </TouchableOpacity>
                                     )
+                                }
                                 }
                                 //Setting the number of column
                                 numColumns={5}
@@ -291,7 +325,7 @@ const PopupModal=(props) =>{
                                 
                                 {UIElements.drawGapV(20)}
                                 
-                                <TouchableOpacity style={{alignSelf:'center'}} onPress={()=>{OnSubmit()}} >
+                                <TouchableOpacity style={{alignSelf:'center'}} onPress={()=>{OnSubmit(undefined)}} >
                                 <Image style={{width:45,height:45}}  source={require('../assets/Asset3.png')}></Image></TouchableOpacity>
                                 </View>
                                 );
@@ -300,17 +334,18 @@ const PopupModal=(props) =>{
                         const OnDone=()=>{
                             setPage(3);
                         }
-                        
+                        let gamesOut=[...games];
+
                         const updateSelection=(index)=>{
                             // const { gamesIn } = this.state;
-                            gamesIn[index].selected =!gamesIn[index].selected;
-                            
-                            setGames(gamesIn);
+                            gamesOut=[...gamesIn];
+                            gamesOut[index].selected =!gamesOut[index].selected;
+                            setGames(gamesOut);
                             
                         }
-                        const OnSubmit=()=>{
+                        const OnSubmit=(user)=>{
                             var isdone=props.onDone;
-                            isdone();
+                            isdone(user);
                             // this.setState({visible:false});
                             setVisible(false);
                         }
@@ -319,15 +354,13 @@ const PopupModal=(props) =>{
                             base64 = jwtBody.replace('-', '+').replace('_', '/');
                             decodedJwt = Buffer.from(base64, 'base64');
                             authState.idTokenJSON = JSON.parse(decodedJwt);
-                            return(
-                                <Text>{JSON.stringify(authState.idTokenJSON)}</Text>
-                                )
+                            getUserFromApiAsync(Api.userProfile+authState.idTokenJSON.sub);
                             }
-                            
+                          
                             // render() {
                             return (
                                 <Modal transparent = {false} visible={visible}>
-                                <>
+                                {/* <>
                                 {!!authState.accessToken ? (
                                     <>
                                     <Text>accessToken</Text>
@@ -367,13 +400,13 @@ const PopupModal=(props) =>{
                                                     <Button onPress={handleRevoke} title="Revoke" color="#EF525B" />
                                                     ) : null}
                                                     </>
-                                                    </>
+                                                    </> */}
                                                     
                                                     
                                                     {/* <AppColors/> */}
                                                     <View style={{backgroundColor: colors.sportColor,height:'100%',width:'100%',}}>
                                                     <Image style={{alignSelf:'center',top:50,width:(564*0.4),height:(264*0.4)}}  source={require('../assets/Asset1.png')}></Image>
-                                                    <View style={{position:'absolute',transform:[{translateY:height/3.05}],right:0,height:5,width:'60%',backgroundColor:colors.yellowColor}}></View>
+                                                    <View style={{position:'absolute',transform:[{translateY:height/3.55}],right:0,height:5,width:'60%',backgroundColor:colors.yellowColor}}></View>
                                                     <View style={[styles.bottomMenu,{backgroundColor:colors.background}]}>
                                                     {GetPage()}
                                                     {/* <TouchableOpacity style={styles.startBut} onPress={this.OnSubmit}><Text style={{fontWeight:'800'}} >Get Started</Text></TouchableOpacity> */}
@@ -388,7 +421,7 @@ const PopupModal=(props) =>{
                                                     // }
                                                     
                                                 }
-                                                export default PopupModal;
+                                                // export default PopupModal;
                                                 const styles = StyleSheet.create({
                                                     MainContainer:{
                                                         flex:1,
@@ -399,7 +432,7 @@ const PopupModal=(props) =>{
                                                         justifyContent:'center',
                                                         // color:colors.text,
                                                         // borderColor:colors.sportColor,
-                                                        padding:10,borderWidth:1,borderRadius:10, backgroundColor:colors.background,
+                                                        padding:10,borderWidth:1,borderRadius:10,
                                                         width:'85%'},
                                                         heading:{
                                                             fontSize:30,
@@ -408,7 +441,7 @@ const PopupModal=(props) =>{
                                                         },
                                                         bottomMenu:{
                                                             position:'absolute',
-                                                            transform:[{translateX:0},{translateY:height/3}],
+                                                            transform:[{translateX:0},{translateY:height/3.5}],
                                                             width:'100%',shadowColor: "#000",
                                                             shadowOffset: {
                                                                 width: 0,
@@ -416,7 +449,7 @@ const PopupModal=(props) =>{
                                                             },
                                                             shadowOpacity: 0.25,
                                                             shadowRadius: 10,
-                                                            elevation: 5,justifyContent:'center',alignItems:'center',height:height/2.22
+                                                            elevation: 5,justifyContent:'center',alignItems:'center',height:height/2
                                                         },
                                                        
                                                         

@@ -74,7 +74,7 @@ export default class HomeScreen extends Component {
     
     return (
       <>
-      <HeaderTitle/>
+      <HeaderTitle User={this.props.User}/>
       {/* <BannerScroll images={arr}/> */}
       <ScrollView style={{backgroundColor:colors.bgColor}} >
       {UIElements.drawGapV(10)}

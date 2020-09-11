@@ -11,15 +11,15 @@ import { useTheme } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
 // Wrap and export
-export default function(props) {
+export default function FacilityScreen(props) {
     const theme = useTheme();
-    return <FacilityScreen {...props} theme={theme} />;
+    return <FacilityScreenf {...props} theme={theme} />;
 }
 
 
-class FacilityScreen extends Component {
+class FacilityScreenf extends Component {
     render() {
-        const { colors } = this.props;
+        const { theme } = this.props;
         return (
             <>
             <Stack.Navigator initialRouteName="FaciltyContent"
@@ -27,16 +27,16 @@ class FacilityScreen extends Component {
             //     headerShown: false,
             // }}
             >
-            <Stack.Screen name="FaciltyContent" component={FacilityContent} options={{
-                headerMode:'none',headerShown: false,cardStyle: { backgroundColor:colors.background},
+            <Stack.Screen name="FaciltyContent" children={()=><FacilityContent User={this.props.User} />} options={{
+                headerMode:'none',headerShown: false,cardStyle: { backgroundColor:theme.colors.background},
             }} />
-            <Stack.Screen name="Filter" component={FilterPage} options={{
-                headerMode:'none',headerShown: false,cardStyle: { backgroundColor:colors.background},
+            <Stack.Screen name="Filter" children={()=><FilterPage User={this.props.User}/>} options={{
+                headerMode:'none',headerShown: false,cardStyle: { backgroundColor:theme.colors.background},
             }}  />
-            <Stack.Screen name="Reserve" component={Reservation}
+            <Stack.Screen name="Reserve" children={({route})=><Reservation {...this.props} facilityInfo={route.params.facilityInfo} User={this.props.User}/>}
             options={({ route }) => ({ title: route.params.facilityInfo.name,headerStyle: {
-                backgroundColor: colors.sportColor,
-              },cardStyle: { backgroundColor:colors.background}, })} />
+                backgroundColor: theme.colors.sportColor,
+              },cardStyle: { backgroundColor:theme.colors.background}, })} />
 
             </Stack.Navigator>
            

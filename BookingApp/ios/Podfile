@@ -81,6 +81,8 @@ target 'BookingApp' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'react-native-appearance', :path => '../node_modules/react-native-appearance'
+
   target 'BookingAppTests' do
     inherit! :complete
     # Pods for testing

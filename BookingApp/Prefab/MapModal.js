@@ -13,7 +13,7 @@ import { useTheme } from '@react-navigation/native';
 
 
 // Wrap and export
-export default function(props) {
+export default function MapModalf(props) {
     const theme = useTheme();
     return <MapModal {...props} theme={theme} />;
 }
@@ -114,7 +114,7 @@ class MapModal extends Component {
         }
         
         render() {
-            const { colors } = this.props;
+            const { theme } = this.props;
             return (
                 <Modal  transparent = {false} visible={this.state.visible}>
                 {/* <AppColors/> */}
@@ -144,27 +144,27 @@ class MapModal extends Component {
                     coordinate={{latitude: this.state.location.coords.latitude,
                         longitude: this.state.location.coords.longitude,}}
                         title={"Home"}
-                        pinColor={colors.sportColor}
+                        pinColor={theme.colors.sportColor}
                         />
                         
                         
                         </MapView>
-                        {/* <View style={{backgroundColor: colors.sportColor,height:'100%',width:'100%',}}> */}
-                        <View style={[styles.bottomMenu,{backgroundColor:colors.background}]}>
+                        {/* <View style={{backgroundColor: theme.colors.sportColor,height:'100%',width:'100%',}}> */}
+                        <View style={[styles.bottomMenu,{backgroundColor:theme.colors.background}]}>
                         {UIElements.drawGapV(20)}
                         <View style={{flex:1,flexDirection:'row'}}>
-                        <Ionicons name={(Platform.OS === "ios" ? "ios" : "md")+"-locate"} size={30} />
+                        <Ionicons name={(Platform.OS === "ios" ? "ios" : "md")+"-locate"} size={30} color={theme.colors.text} />
                         {UIElements.drawGapH(10)}
                         
                         <View>
-                        <Text style={{color:colors.text,fontSize:14}} >Set your House Location</Text>
+                        <Text style={{color:theme.colors.text,fontSize:14}} >Set your House Location</Text>
                         {UIElements.drawGapV(20)}
-                        <Text style={{color:colors.text,width:200,fontSize:13}}>{this.state.shortAddress==''?'Location':this.state.shortAddress}</Text>
+                        <Text style={{color:theme.colors.text,width:200,fontSize:13}}>{this.state.shortAddress==''?'Location':this.state.shortAddress}</Text>
                         {UIElements.drawGapV(10)}
                         <TouchableOpacity onPress={()=>this.OnSubmit()} >
                         <Image style={{width:45,height:45}}  source={require('../assets/Asset3.png')}></Image></TouchableOpacity>
                         {UIElements.drawGapV(10)}
-                        <Text style={{color:colors.sportColor}} onPress={()=>this.OnSubmit()} >Skip this Step </Text>
+                        <Text style={{color:theme.colors.sportColor}} onPress={()=>this.OnSubmit()} >Skip this Step </Text>
                         {UIElements.drawGapV(20)}
                         
                         </View>
@@ -188,7 +188,7 @@ class MapModal extends Component {
                     bottomMenu:{
                         position:'absolute',right:0,
                         transform:[{translateX:0},{translateY:height/1.75}],
-                        // backgroundColor:colors.background,
+                        // backgroundColor:theme.colors.background,
                         width:'65%',shadowColor: "#000",
                         shadowOffset: {
                             width: 0,

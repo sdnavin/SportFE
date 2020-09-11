@@ -12,17 +12,18 @@ import gamesIn from '../constants/sportDetails'
 import HeaderTitle from './HeaderTitle';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import { useTheme } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 // Wrap and export
-export default function(props) {
+export default function FacilityContent(props) {
     const theme = useTheme();
-    return <FacilityContent {...props} theme={theme} />;
+    const navigation = useNavigation();
+    return <FacilityContentf {...props} theme={theme} navigation={navigation}/>;
 }
 
-class FacilityContent extends Component {
+class FacilityContentf extends Component {
     constructor(props){
         super(props);
         this.state={
@@ -163,11 +164,12 @@ class FacilityContent extends Component {
                 });
             }
             render() {
-                const { colors } = this.props;
+                const { theme,User } = this.props;
+                console.log(User);
                 if(this.state.loaded==0){
                     return (
                         <>
-                        <HeaderTitle/>
+                        <HeaderTitle User={User}/>
                         {this.state.reload==1&&
                             <FilterBar navigation={this.props.navigation} AllData={this.state.allData} openFilterPage={this.toggleFilter} filtering={this.applyFilter}/>
                         }
@@ -177,7 +179,7 @@ class FacilityContent extends Component {
                     }else{
                         return (
                             <>
-                            <HeaderTitle/>
+                            <HeaderTitle User={User}/>
                             <FilterBar navigation={this.props.navigation} AllData={this.state.allData} openFilterPage={this.toggleFilter} filtering={this.applyFilter}/>
                             <FlatGrid
                             itemDimension={(screenWidth)}
@@ -186,7 +188,7 @@ class FacilityContent extends Component {
                                 <TouchableOpacity onPress={()=>{
                                     this.props.navigation.navigate("Reserve",{facilityInfo:item});
                                 }} ><>
-                                <Card containerStyle={{backgroundColor:colors.background,borderWidth:0,padding:0,margin:0, width:'100%',marginTop:10}}>
+                                <Card containerStyle={{backgroundColor:theme.colors.sportColor,borderRadius:10,borderWidth:0,padding:0,margin:0, width:'100%',marginTop:10}}>
                                 <View style={{flex:1,width:'100%',height:150}}>
                                 <Image
                                 source={{ uri:item.images[0]}}
@@ -194,7 +196,7 @@ class FacilityContent extends Component {
                                 PlaceholderContent={<ActivityIndicator/>}
                                 />
                                 <View style={{position:'absolute',width: '100%' ,}}>
-                                <Button disabled={!item.bookingType.toLowerCase().includes('online')} buttonStyle={{backgroundColor:colors.yellowColor,width:100,alignSelf:'flex-end',height:20}} title='BOOK NOW' titleStyle={{alignSelf:'center',fontSize:12}}/>
+                                <Button disabled={!item.bookingType.toLowerCase().includes('online')} buttonStyle={{backgroundColor:theme.colors.yellowColor,width:100,alignSelf:'flex-end',height:20}} title='BOOK NOW' titleStyle={{alignSelf:'center',fontSize:12}}/>
                                 {UIElements.drawGapV(55)}
                                 <View style={{flexDirection:'row'}}>
                                 {UIElements.drawGapH(10)}
@@ -218,26 +220,26 @@ class FacilityContent extends Component {
                             </View>
                             </Card></></TouchableOpacity>)
                         }/>
-                        <Overlay overlayStyle={{width:'90%',height:'55%'}} backdropStyle={{color:colors.blackTransparent}} isVisible={this.state.visibleFilter} onBackdropPress={()=>this.toggleFilter()}>
-                        <View style={{width:'100%',height:'100%'}}>
-                        <View style={{padding:5, flexDirection:'row',borderWidth:1,borderColor:colors.border,borderRadius:5,justifyContent:'center'}} >
-                        <Text style={{alignSelf:'center',color:colors.text }}>Filters </Text>
-                        <IonIcon name="ios-options" style={{color:colors.text}} size={20} color='black'/></View>
+                        <Overlay overlayStyle={{width:'90%',backgroundColor:theme.colors.background }} backdropStyle={{color:theme.colors.blackTransparent}} isVisible={this.state.visibleFilter} onBackdropPress={()=>this.toggleFilter()}>
+                        <View style={{width:'100%'}}>
+                        <View style={{padding:5, flexDirection:'row',borderWidth:1,borderColor:theme.colors.border,borderRadius:5,justifyContent:'center'}} >
+                        <Text style={{alignSelf:'center',color:theme.colors.text }}>Filters </Text>
+                        <IonIcon name="ios-options" style={{color:theme.colors.text}} size={20} color='black'/></View>
                         {UIElements.drawGapV(15)}
-                        <Text style={styles.title}>Sports</Text>
+                        <Text style={[styles.title,{color:theme.colors.text}]}>Sports</Text>
                         <View style={{height:30,marginBottom:20}}>
                         <ScrollView style={{marginRight:0}} horizontal showsHorizontalScrollIndicator={false} >
                         {this.state.allData.filter(data=>data.type==2).map(( item,index ) => 
                              {
                                  let cItem=item;
                                  return(
-                            <TouchableOpacity onPress={()=>{this.filterItem(cItem)}} key={'FTo'+index} style={{ marginLeft:5, padding:5,borderWidth:1,borderColor:item.selected?colors.sportColor: colors.border,borderRadius:5,justifyContent:'center'}} >
-                            <Text  key={'FT'+index} style={{alignSelf:'center',color:item.selected?colors.sportColor:colors.text }}>{item.name}</Text>
+                            <TouchableOpacity onPress={()=>{this.filterItem(cItem)}} key={'FTo'+index} style={{ marginLeft:5, padding:5,borderWidth:1,borderColor:item.selected?theme.colors.sportColor: theme.colors.border,borderRadius:5,justifyContent:'center'}} >
+                            <Text  key={'FT'+index} style={{alignSelf:'center',color:item.selected?theme.colors.sportColor:theme.colors.text }}>{item.name}</Text>
                             </TouchableOpacity>
                             
                         )})
                         }</ScrollView></View>
-                        <Text style={styles.title}>Locations</Text>
+                        <Text style={[styles.title,{color:theme.colors.text}]}>Locations</Text>
                         <View style={{height:30,marginBottom:20}}>
                         
                         <ScrollView style={{marginRight:0}} horizontal showsHorizontalScrollIndicator={false} >
@@ -245,21 +247,25 @@ class FacilityContent extends Component {
                             {
                                 let cItem=item;
                                 return(
-                            <TouchableOpacity onPress={()=>{this.filterItem(cItem)}} key={'FTo'+index} style={{ marginLeft:5, padding:5,borderWidth:1,borderColor:item.selected?colors.sportColor: colors.border,borderRadius:5,justifyContent:'center'}} >
-                            <Text  key={'FT'+index} style={{alignSelf:'center',color:item.selected?colors.sportColor:colors.text }}>{item.name}</Text>
+                            <TouchableOpacity onPress={()=>{this.filterItem(cItem)}} key={'FTo'+index} style={{ marginLeft:5, padding:5,borderWidth:1,borderColor:item.selected?theme.colors.sportColor: theme.colors.border,borderRadius:5,justifyContent:'center'}} >
+                            <Text  key={'FT'+index} style={{alignSelf:'center',color:item.selected?theme.colors.sportColor:theme.colors.text }}>{item.name}</Text>
                             </TouchableOpacity>)}
                             )
                         }</ScrollView></View>
                         <View style={{height:50}}>
                         <Input
+                        value={this.state.venuetext}
+                        inputStyle={{color:theme.colors.text}}
                         placeholder='Name of the Venue'
                         onChangeText={(text)=>{this.setState({venuetext:text})}}
                         />
                         </View>
                         {UIElements.drawGapV(15)}
                         <CheckBox
+                        containerStyle={{backgroundColor:theme.colors.background}}
+                        textStyle={{color:theme.colors.text}}
                         title='Online Booking'
-                        checkedColor={colors.sportColor}
+                        checkedColor={theme.colors.sportColor}
                         onPress={() => this.setState({onlinebook: !this.state.onlinebook})}
                         checked={this.state.onlinebook}
                         />
