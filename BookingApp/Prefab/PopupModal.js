@@ -13,6 +13,7 @@ import Api from '../constants/ApiLink';
 import { Buffer } from 'buffer';
 import { useTheme } from '@react-navigation/native';
 import MapModalf from './MapModal';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function PopupModal(props) {
 
@@ -243,8 +244,8 @@ const defaultAuthState = {
                     {UIElements.drawGapV(20)}
                     
                     <View style={{flex:1,flexDirection:'row'}}>
-                    <Text style={{color:colors.text}}>Already have an Account? </Text>
-                    <Text style={{color:colors.sportColor,textDecorationLine:'underline'}} onPress={()=>{login()}} >Login</Text>
+                    <Text style={{color:colors.text,fontFamily:"Altis-Light",}}>Already have an Account? </Text>
+                    <Text style={{color:colors.sportColor,textDecorationLine:'underline',fontFamily:"Altis-Medium",}} onPress={()=>{login()}} >Login</Text>
                     </View> 
                     {UIElements.drawGapV(5)}
                     </>
@@ -255,7 +256,7 @@ const defaultAuthState = {
                         <View style={{alignContent:'center',margin:20}}>
                         {UIElements.drawGapV(20)}
                         
-                        <Text style={{color:colors.text}}>We have send you, 6 digit verification code (OTP) to your email and Phone number</Text>
+                        <Text style={{color:colors.text,fontFamily:"Altis-Light",}}>We have send you, 6 digit verification code (OTP) to your email and Phone number</Text>
                         {UIElements.drawGapV(20)}
                         
                         <View style={{flex:1,flexDirection:'row',justifyContent:'space-around'}} >
@@ -359,7 +360,7 @@ const defaultAuthState = {
                           
                             // render() {
                             return (
-                                <Modal transparent = {false} visible={visible}>
+                                <Modal transparent = {false} fullScreen visible={visible}>
                                 {/* <>
                                 {!!authState.accessToken ? (
                                     <>
@@ -404,7 +405,7 @@ const defaultAuthState = {
                                                     
                                                     
                                                     {/* <AppColors/> */}
-                                                    <View style={{backgroundColor: colors.sportColor,height:'100%',width:'100%',}}>
+                                                    <SafeAreaView style={{backgroundColor: colors.sportColor,height:'100%',width:'100%',}}>
                                                     <Image style={{alignSelf:'center',top:50,width:(564*0.4),height:(264*0.4)}}  source={require('../assets/Asset1.png')}></Image>
                                                     <View style={{position:'absolute',transform:[{translateY:height/3.55}],right:0,height:5,width:'60%',backgroundColor:colors.yellowColor}}></View>
                                                     <View style={[styles.bottomMenu,{backgroundColor:colors.background}]}>
@@ -415,7 +416,7 @@ const defaultAuthState = {
                                                     
                                                     </View>
                                                     <View style={{left:0,position:'absolute',transform:[{translateY:height/1.275}],height:5,width:'60%',backgroundColor:colors.yellowColor}}></View>
-                                                    </View>
+                                                    </SafeAreaView>
                                                     </Modal>
                                                     )
                                                     // }
@@ -429,6 +430,7 @@ const defaultAuthState = {
                                                         alignSelf:'center'
                                                     },
                                                     inputBox:{
+                                                        fontFamily:"Altis-Light",
                                                         justifyContent:'center',
                                                         // color:colors.text,
                                                         // borderColor:colors.sportColor,

@@ -36,6 +36,7 @@ export default class App extends React.Component  {
   render(){
     return (
       <Provider store={store}>
+        <StatusBar backgroundColor='#00bb68' />
       <BottomBar/>
       </Provider>
       );

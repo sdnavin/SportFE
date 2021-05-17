@@ -21,6 +21,7 @@ class ToggleBarC extends Component {
             items: this.props.items,
             selected:-1
         };
+        console.log(this.props.items);
         this.selectItem= this.selectItem.bind(this);
     }
     selectItem(cItem){
@@ -29,6 +30,7 @@ class ToggleBarC extends Component {
         this.setState({selected:(cItem===this.state.selected)?-1:cItem});
     }
     getDiveder(cItem){
+        console.log(cItem);
         let clampedValue=0;
         clampedValue = Math.max(0, Math.min(4, this.state.items.length));
         clampedValue=Math.max(((width-(15*clampedValue))/clampedValue),cItem.length*10);

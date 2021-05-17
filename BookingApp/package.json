@@ -9,6 +9,11 @@
     "test": "jest",
     "lint": "eslint ."
   },
+  "rnpm": {
+    "assets": [
+   "./assets/fonts/"
+    ]
+  },
   "dependencies": {
     "@react-native-community/checkbox": "^0.4.1",
     "@react-native-community/datetimepicker": "^2.4.0",

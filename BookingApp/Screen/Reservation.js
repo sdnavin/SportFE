@@ -42,7 +42,8 @@ class Reservationf extends Component {
             selectdate:new Date(),
             futureDate:new Date(),
             reserveDateTime:new Date(),
-            facilityData:{}
+            facilityData:{},formats:[],
+            sportNo:-1,formatNo:-1
             
         }
         this.onChangeDate(null,this.state.selectdate);
@@ -93,12 +94,7 @@ class Reservationf extends Component {
     updateIndex (selectedIndex) {
         this.setState({selectedIndex})
     }
-    componentData = (Data) =>{ 
-        return({element:this.componentD(Data)});
-    }
-    componentD = (Data) =>{ 
-        return( <Text>{Data}</Text>)
-    }
+    
     component1 = () =>{ 
         const { theme } = this.props;
         return( <Text style={{color:theme.colors.text}} >Details</Text>)
@@ -113,11 +109,34 @@ class Reservationf extends Component {
         
         return( <Text style={{color:theme.colors.text}}>Maps & Hours</Text>)
     }
-
+    
     selectedSport(index){
-        var myInfo=this.state.facilityData;
-
-        console.log(myInfo.sports[index].name);
+        if(index!=-1){
+            var myInfo=this.state.facilityData;
+            this.setState({formats:myInfo.sports[index].formats})
+            console.log(myInfo.sports[index].formats.length);
+        }else{
+            this.setState({formats:[]});
+        }
+    }
+    
+    selectedSport(index){
+        if(index!=-1){
+            var myInfo=this.state.facilityData;
+            this.setState({formats:myInfo.sports[index].formats,sportNo:index})
+            console.log(myInfo.sports[index].formats);
+        }else{
+            this.setState({formats:[],sportNo:-1});
+        }
+    }
+    selectedFormat(index){
+        if(index!=-1){
+            var myInfo=this.state.facilityData;
+            this.setState({formatNo:index})
+            console.log(myInfo.sports[this.state.sportNo].formats[index]);
+        }else{
+            this.setState({formats:[],formatNo:-1});
+        }
     }
     
     onChangeDate (event,selectedDate){
@@ -147,19 +166,36 @@ class Reservationf extends Component {
         return(<Text style={{fontSize:16,textAlign:'right',color:theme.colors.text}}>{totalstring}</Text>)
     }
     
+    
+    getFormatsArray(){
+        var myinfo=this.state.formats;
+        console.log(myinfo.length);
+        let totalstring=[];
+        if(myinfo.length){
+            myinfo.map((item, index)=>{
+                var citem=item;
+                totalstring.push(item);
+            });
+        }
+        console.log(totalstring);
+        return(totalstring)
+    }
+    
     getGamesArray(myinfo){
         let totalstring=[];
-        myinfo.sports.map((item, index)=>{
-            var citem=item;
-            totalstring.push(item);
-        });
+        if(myinfo.sports.length>0){
+            myinfo.sports.map((item, index)=>{
+                var citem=item;
+                totalstring.push(item);
+            });
+        }
         console.log(totalstring);
         return(totalstring)
     }
     
     getAllTimes(){
         const { theme } = this.props;
-
+        
         var alllines=[];
         let t=0;
         var alltime=[];
@@ -300,8 +336,14 @@ class Reservationf extends Component {
                             <>
                             {this.isLoading(
                                 <ScrollView style={{margin:10,}}>
-                                <ToggleBar items={this.getGamesArray(myInfo)} itemSelected={()=>{this.selectedSport}}/>
+                                <ToggleBar items={this.getGamesArray(myInfo)} itemSelected={this.selectedSport.bind(this)}/>
                                 {UIElements.drawGapV(10)}
+                                {this.state.formats.length>0&&
+                                    <>
+                                    <ToggleBar items={this.getFormatsArray()} itemSelected={this.selectedFormat.bind(this)}/>
+                                    {UIElements.drawGapV(10)}
+                                    </>
+                                }
                                 <TouchableOpacity style={{borderWidth:0.5,flexDirection:'row',borderRadius:10,height:50,flex:1,justifyContent:'center',backgroundColor:'white'}} onPress={()=>this.setState({showDateTime:1})}>
                                 <Text style={{alignSelf:'center',fontSize:18,fontWeight:'500'}} >{(monthNames[this.state.selectdate.getUTCMonth() ]) + " " + this.state.selectdate.getDate()}</Text>
                                 <Text style={{alignSelf:'center',fontSize:18,fontWeight:'500'}} >{' - '+ (monthNames[this.state.futureDate.getUTCMonth()]) + " " + this.state.futureDate.getDate()}</Text>
@@ -351,16 +393,16 @@ class Reservationf extends Component {
                                     <View style={{margin:10}}>
                                     {UIElements.drawGapV(10)}
                                     <View style={{justifyContent:'space-between'}}>
-                                    <Text style={{fontSize:22,fontWeight:'bold'}}>{myInfo.name}</Text>
+                                    <Text style={{fontSize:22,fontWeight:'bold',color:theme.colors.text}}>{myInfo.name}</Text>
                                     {UIElements.drawGapV(5)}
                                     
-                                    <Text style={{fontSize:18,fontWeight:'600'}}>{myInfo.location}</Text>
+                                    <Text style={{fontSize:18,fontWeight:'600',color:theme.colors.text}}>{myInfo.location}</Text>
                                     {UIElements.drawGapV(5)}
                                     
-                                    <View style={{flexDirection:'row'}} ><Text style={{fontSize:18,fontWeight:'bold'}}>{"Date - "}</Text>
-                                    <Text style={{fontSize:18,fontWeight:'600'}}>{this.state.selectdate.getDate()+" "+monthNames[this.state.selectdate.getMonth()]+" "+this.state.selectdate.getFullYear()}</Text></View>
-                                    <View style={{flexDirection:'row'}} ><Text style={{fontSize:18,fontWeight:'bold'}}>{"Time - "}</Text>
-                                    <Text style={{fontSize:18,fontWeight:'600'}}>{("0" + (this.state.selectdate.getHours())).slice(-2)+":00"}</Text></View>
+                                    <View style={{flexDirection:'row'}} ><Text style={{fontSize:18,fontWeight:'bold',color:theme.colors.text}}>{"Date - "}</Text>
+                                    <Text style={{fontSize:18,fontWeight:'600',color:theme.colors.text}}>{this.state.selectdate.getDate()+" "+monthNames[this.state.selectdate.getMonth()]+" "+this.state.selectdate.getFullYear()}</Text></View>
+                                    <View style={{flexDirection:'row'}} ><Text style={{fontSize:18,fontWeight:'bold',color:theme.colors.text}}>{"Time - "}</Text>
+                                    <Text style={{fontSize:18,fontWeight:'600',color:theme.colors.text}}>{("0" + (this.state.selectdate.getHours())).slice(-2)+":00"}</Text></View>
                                     {UIElements.drawGapV(10)}
                                     <Button onPress={()=>{}} buttonStyle={{backgroundColor:theme.colors.yellowColor,height:30,width:'50%',alignSelf:'center'}} title='Confirm & Pay' titleStyle={{alignSelf:'center',fontSize:18}}/>
                                     </View></View>

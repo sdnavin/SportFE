@@ -18,6 +18,7 @@ class HeaderTitlef extends Component {
     render() {
         const { theme,User } = this.props;
         return (
+            // <View style={{backgroundColor:theme.colors.sportColor}}>
             <SafeAreaView>
                 <View style={{backgroundColor:theme.colors.sportColor,height:60,width:"100%"}}>
                 <Text style={{alignSelf:'flex-end',color:'white',fontWeight:'bold',fontSize:18,marginTop:5,marginRight:10}}>
@@ -31,6 +32,7 @@ class HeaderTitlef extends Component {
                 </Text>
                 </View>
             </SafeAreaView>
+            // </View>
         )
     }
 }
