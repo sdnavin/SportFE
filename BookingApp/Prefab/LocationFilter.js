@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Alert,View,Text, StyleSheet, SafeAreaView, TextInput, ScrollView } from 'react-native'
-import IonIcon from 'react-native-vector-icons/Ionicons';
+// import IonIcon from 'react-native-vector-icons/Ionicons';
 import * as UIElements from '../Tools/UIElements';
 import { colors } from '../constants/AppColors';
 
@@ -83,7 +83,7 @@ export default class LocationFilter extends Component {
                         <TouchableOpacity style={{flexDirection:'row'}} onPress={()=>this.setState({showOption:1})}>
                         <Text>{this.state.location==undefined?"Detect my Location":this.state.shortAddress}</Text>
                         {UIElements.drawGapH(10)}
-                        <IonIcon style={{marginTop:5}} name="ios-arrow-down" size={18} color='black'/>
+                        {/* <IonIcon style={{marginTop:5}} name="ios-arrow-down" size={18} color='black'/> */}
                         </TouchableOpacity>
                         
                         </View>

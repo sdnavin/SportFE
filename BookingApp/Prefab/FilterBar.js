@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Alert,View,Text, StyleSheet, SafeAreaView, TextInput, ScrollView } from 'react-native'
-import IonIcon from 'react-native-vector-icons/Ionicons';
+// import IonIcon from 'react-native-vector-icons/Ionicons';
 import * as UIElements from '../Tools/UIElements';
 import AppColors from '../constants/AppColors';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import { useTheme } from '@react-navigation/native';
@@ -122,7 +122,7 @@ class FilterBarf extends Component {
                             <View style={{flexDirection:'row',flex:1}} >
                             <TouchableOpacity onPress={()=>this.openFilter()} style={{padding:5, flexDirection:'row',borderWidth:1,borderColor:theme.colors.border,borderRadius:5,justifyContent:'center'}} >
                             <Text style={{alignSelf:'center',color:theme.colors.text }}>Filters </Text>
-                            <IonIcon name="ios-options" style={{color:theme.colors.text}} size={20} color='black'/>
+                            {/* <IonIcon name="ios-options" style={{color:theme.colors.text}} size={20} color='black'/> */}
                             </TouchableOpacity>
                             <ScrollView style={{marginLeft:5,marginRight:10}} horizontal showsHorizontalScrollIndicator={false} >
                             {this.state.allData.map((item,index)=>{
@@ -132,7 +132,7 @@ class FilterBarf extends Component {
                                 </TouchableOpacity>)
                             })}
                             </ScrollView>
-                            <MaterialIcons style={{marginLeft:-10,marginRight:-10}} name="keyboard-arrow-right" size={30} />
+                            {/* <MaterialIcons style={{marginLeft:-10,marginRight:-10}} name="keyboard-arrow-right" size={30} /> */}
                             
                             </View>
                             </SafeAreaView></>

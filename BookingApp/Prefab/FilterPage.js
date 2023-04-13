@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { SafeAreaView, TouchableOpacity,Text,View, StyleSheet, Switch,Platform,  } from 'react-native'
 import * as UIElements from '../Tools/UIElements'
-import Fontisto from 'react-native-vector-icons/Fontisto'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+// import Fontisto from 'react-native-vector-icons/Fontisto'
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import CheckBox from '@react-native-community/checkbox'
 
 // import DateTimePicker from '@react-native-community/datetimepicker';
@@ -64,7 +64,8 @@ class FilterPage extends Component {
             <View style={{margin:10,flexDirection:'row',alignItems:'center'}}>
             <TouchableOpacity style={{borderWidth:0.5,borderRadius:10,height:50,flex:1,marginEnd:10,justifyContent:'center',backgroundColor:'white'}} onPress={()=>this.setState({showDateTime:1})}>
             <Text style={{alignSelf:'center',fontSize:18,fontWeight:'500'}} >{this.state.selectdate.getDate() + "-" + (this.state.selectdate.getMonth() + 1) + "-" + this.state.selectdate.getFullYear()}</Text>
-            </TouchableOpacity><Fontisto name='date' size={30} color='black'/>
+            </TouchableOpacity>
+            {/* <Fontisto name='date' size={30} color='black'/> */}
             </View>
             
             {this.state.showDateTime==1 && 

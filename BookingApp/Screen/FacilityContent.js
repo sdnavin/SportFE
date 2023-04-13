@@ -6,12 +6,12 @@ import { Image, Card, Button, Overlay, Input, CheckBox } from 'react-native-elem
 import FacilityList from '../constants/FacilityData'
 import AppColors, { appTheme, colors } from '../constants/AppColors';
 import * as UIElements from '../Tools/UIElements';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Api from '../constants/ApiLink';
 import gamesIn from '../constants/sportDetails'
 import HeaderTitle from './HeaderTitle';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import IonIcon from 'react-native-vector-icons/Ionicons';
+// import IonIcon from 'react-native-vector-icons/Ionicons';
 import { useNavigation, useTheme } from '@react-navigation/native';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
@@ -212,7 +212,7 @@ class FacilityContentf extends Component {
                             </View> */}
                             {UIElements.drawGapV(2)}
                             <View style={{flexDirection:'row'}}>
-                            <MaterialIcons name='star-border' size={18} color='white'/>
+                            {/* <MaterialIcons name='star-border' size={18} color='white'/> */}
                             <Text style={{fontSize:12,alignSelf:'center',color:'white'}} >{item.rating}</Text></View>
                             </View>
                             </View>
@@ -224,7 +224,8 @@ class FacilityContentf extends Component {
                         <View style={{width:'100%'}}>
                         <View style={{padding:5, flexDirection:'row',borderWidth:1,borderColor:theme.colors.border,borderRadius:5,justifyContent:'center'}} >
                         <Text style={{alignSelf:'center',color:theme.colors.text }}>Filters </Text>
-                        <IonIcon name="ios-options" style={{color:theme.colors.text}} size={20} color='black'/></View>
+                        {/* <IonIcon name="ios-options" style={{color:theme.colors.text}} size={20} color='black'/> */}
+                        </View>
                         {UIElements.drawGapV(15)}
                         <Text style={[styles.title,{color:theme.colors.text}]}>Sports</Text>
                         <View style={{height:30,marginBottom:20}}>

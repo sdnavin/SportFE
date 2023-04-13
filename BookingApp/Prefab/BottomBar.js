@@ -7,10 +7,10 @@ import { NavigationContainer,DefaultTheme,
     import EventScreen from '../Screen/EventScreen';
     import AccountScreen from '../Screen/AccountScreen';
     import { Dimensions, StyleSheet,Appearance, View} from 'react-native'
-    import Ionicons from 'react-native-vector-icons/Ionicons';
-    import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+    // import Ionicons from 'react-native-vector-icons/Ionicons';
+    // import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
     import AppColors from '../constants/AppColors';
-    import { AppearanceProvider, useColorScheme as appcolorScheme } from 'react-native-appearance';
+    // import { AppearanceProvider, useColorScheme as appcolorScheme } from 'react-native-appearance';
     import { useTheme } from '@react-navigation/native';
 import PopupModal from './PopupModal';
     
@@ -18,7 +18,7 @@ import PopupModal from './PopupModal';
         // const { colors } = useTheme();
         const Tab = createBottomTabNavigator();
         
-        const colorScheme = appcolorScheme();
+        // const colorScheme = appcolorScheme();
         
         const appDarkTheme = {
             ...DarkTheme,
@@ -55,7 +55,7 @@ import PopupModal from './PopupModal';
         // console.log(global.appThemebgcolor);
         // global.appTheme=(colorScheme=='dark')?appDarkTheme:appLightTheme;
         return (
-            <AppearanceProvider>
+            // <AppearanceProvider>
             <NavigationContainer theme={getTheme()} style={styles.NavigationBar}>
             {/* // <NavigationContainer theme={AppColors()}> */}
             {getStarted&&(<PopupModal title="Start" onDone={OnDone.bind(this)}/>)}
@@ -63,28 +63,28 @@ import PopupModal from './PopupModal';
             <Tab.Navigator
             initialRouteName="Home"
             screenOptions={({ route }) => ({
-                tabBarIcon: ({ focused, color, size }) => {
-                    let iconName;
-                    if (route.name === 'Home') {
-                        iconName = focused? 'home':'home';
-                        return <MaterialIcons name={iconName} size={size} color={color} />;
-                    } else if (route.name === 'Facilty') {
-                        iconName = focused ? 'ios-list-box' : 'ios-list';
-                        return <Ionicons name={iconName} size={size} color={color} />;
-                    }else if (route.name === 'Favourites') {
-                        iconName = focused ? 'star' : 'star-border';
-                        return <MaterialIcons name={iconName} size={size} color={color} />;
-                    }else if (route.name === 'My Account') {
-                        iconName = focused ? 'person' : 'person-outline';
-                        return <MaterialIcons name={iconName} size={size} color={color} />;
-                    }
-                    else if (route.name === 'Messages') {
-                        iconName = focused ? 'message' : 'message';
-                        return <MaterialIcons name={iconName} size={size} color={color} />;
-                    }
-                    // You can return any component that you like here!
-                    //   return <Ionicons name={iconName} size={size} color={color} />;
-                },
+                // tabBarIcon: ({ focused, color, size }) => {
+                //     let iconName;
+                //     if (route.name === 'Home') {
+                //         iconName = focused? 'home':'home';
+                //         return <MaterialIcons name={iconName} size={size} color={color} />;
+                //     } else if (route.name === 'Facilty') {
+                //         iconName = focused ? 'ios-list-box' : 'ios-list';
+                //         return <Ionicons name={iconName} size={size} color={color} />;
+                //     }else if (route.name === 'Favourites') {
+                //         iconName = focused ? 'star' : 'star-border';
+                //         return <MaterialIcons name={iconName} size={size} color={color} />;
+                //     }else if (route.name === 'My Account') {
+                //         iconName = focused ? 'person' : 'person-outline';
+                //         return <MaterialIcons name={iconName} size={size} color={color} />;
+                //     }
+                //     else if (route.name === 'Messages') {
+                //         iconName = focused ? 'message' : 'message';
+                //         return <MaterialIcons name={iconName} size={size} color={color} />;
+                //     }
+                //     // You can return any component that you like here!
+                //     //   return <Ionicons name={iconName} size={size} color={color} />;
+                // },
             })}
             tabBarOptions={{
                 activeBackgroundColor:theme.colors.sportColor,
@@ -112,7 +112,7 @@ import PopupModal from './PopupModal';
             
             </Tab.Navigator> 
             </NavigationContainer>
-            </AppearanceProvider>
+            // </AppearanceProvider>
             )
             // }
         }

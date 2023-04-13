@@ -430,7 +430,7 @@ const defaultAuthState = {
                                                         alignSelf:'center'
                                                     },
                                                     inputBox:{
-                                                        fontFamily:"Altis-Light",
+                                                        // fontFamily:"Altis-Light",
                                                         justifyContent:'center',
                                                         // color:colors.text,
                                                         // borderColor:colors.sportColor,

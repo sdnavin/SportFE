@@ -4,8 +4,8 @@ import AppColors, { appTheme, colors } from '../constants/AppColors'
 import { ButtonGroup, Button, Image } from 'react-native-elements'
 import { color } from 'react-native-reanimated'
 import * as UIElements from '../Tools/UIElements';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+// import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 import { SliderBox } from "react-native-image-slider-box";
@@ -265,7 +265,7 @@ class Reservationf extends Component {
                         <Image source={logo} PlaceholderContent={<ActivityIndicator/>} style={{alignSelf:'flex-start',marginLeft:10,width:80,height:80, resizeMode: 'contain'}}/>
                         
                         <TouchableOpacity onPress={()=>{this.openMap(myInfo.latitude,myInfo.longitude)}} style={{ backgroundColor:theme.colors.sportColor,borderRadius:5,height:25,width:110,justifyContent:'center',translateY:50,flexDirection:'row'}}>
-                        <MaterialIcons style={{alignSelf:'center'}} name={"location-on"} size={15} color={theme.colors.text}/>
+                        {/* <MaterialIcons style={{alignSelf:'center'}} name={"location-on"} size={15} color={theme.colors.text}/> */}
                         <Text style={{alignSelf:'center',color:theme.colors.text}}>View on Map</Text>
                         </TouchableOpacity></View></View>
                         
@@ -308,19 +308,19 @@ class Reservationf extends Component {
                         <View style={{width:'70%'}}>
                         {!!(myInfo.webLink)&& <TouchableOpacity onPress={()=>Linking.openURL(myInfo.webLink)} style={{flexDirection:'row',justifyContent:'flex-end',marginBottom:10}}>
                         <Text style={{fontSize:16,textAlign:'right',color:theme.colors.text}}>{(myInfo.webLink)}</Text>
-                        <MaterialCommunityIcons style={{marginLeft:10, alignSelf:'center'}} name={"web"} size={18} color={theme.colors.text}/>
+                        {/* <MaterialCommunityIcons style={{marginLeft:10, alignSelf:'center'}} name={"web"} size={18} color={theme.colors.text}/> */}
                         </TouchableOpacity>}
                         {!!(myInfo.contactEmail)&&<TouchableOpacity onPress={()=>Linking.openURL("mailto:"+myInfo.contactEmail)} style={{flexDirection:'row',justifyContent:'flex-end',marginBottom:10}}>
                         <Text style={{fontSize:16,textAlign:'right',color:theme.colors.text}}>{(myInfo.contactEmail)}</Text>
-                        <MaterialCommunityIcons style={{marginLeft:10, alignSelf:'center'}} name={"email"} size={18} color={theme.colors.text}/>
+                        {/* <MaterialCommunityIcons style={{marginLeft:10, alignSelf:'center'}} name={"email"} size={18} color={theme.colors.text}/> */}
                         </TouchableOpacity>}
                         {!!(myInfo.telePhone1)&&<TouchableOpacity onPress={()=>Linking.openURL("tel:"+myInfo.telePhone1)} style={{flexDirection:'row',justifyContent:'flex-end',marginBottom:10}}>
                         <Text style={{fontSize:16,textAlign:'right',color:theme.colors.text}}>{(myInfo.telePhone1)}</Text>
-                        <MaterialCommunityIcons style={{marginLeft:10, alignSelf:'center'}} name={"phone"} size={18} color={theme.colors.text}/>
+                        {/* <MaterialCommunityIcons style={{marginLeft:10, alignSelf:'center'}} name={"phone"} size={18} color={theme.colors.text}/> */}
                         </TouchableOpacity>}
                         {!!(myInfo.telePhone2)&&<TouchableOpacity onPress={()=>Linking.openURL("tel:"+myInfo.telePhone2)} style={{flexDirection:'row',justifyContent:'flex-end',marginBottom:10}}>
                         <Text style={{fontSize:16,textAlign:'right',color:theme.colors.text}}>{(myInfo.telePhone2)}</Text>
-                        <MaterialCommunityIcons style={{marginLeft:10, alignSelf:'center'}} name={"phone"} size={18} color={theme.colors.text}/>
+                        {/* <MaterialCommunityIcons style={{marginLeft:10, alignSelf:'center'}} name={"phone"} size={18} color={theme.colors.text}/> */}
                         </TouchableOpacity>}
                         
                         
@@ -374,7 +374,7 @@ class Reservationf extends Component {
                                 <ScrollView  key={"S+"+index}  style={{marginRight:10}} horizontal >
                                 {this.getAllTimes()}
                                 </ScrollView>
-                                <MaterialIcons key={"MI+"+index} style={{position:'absolute',right:-15,marginTop:20}} name="keyboard-arrow-right" size={40} />
+                                {/* <MaterialIcons key={"MI+"+index} style={{position:'absolute',right:-15,marginTop:20}} name="keyboard-arrow-right" size={40} /> */}
                                 </View>
                                 </>
                                 ))}

@@ -7,7 +7,7 @@ import * as Auth from '../Prefab/Authentication'
 import getAppTheme, { colors, appTheme } from '../constants/AppColors';
 import * as UIElements from '../Tools/UIElements'
 import MapView, { Marker } from 'react-native-maps';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+// import Ionicons from 'react-native-vector-icons/Ionicons';
 import Api from '../constants/ApiLink';
 import { useTheme } from '@react-navigation/native';
 
@@ -67,21 +67,21 @@ class MapModal extends Component {
             })
         }
         
-        findCoordinates = () => {
-            navigator.geolocation.getCurrentPosition(
-                position => {
-                    // const location = JSON.stringify(position);
-                    console.log(position);
-                    this.setState({ location:(position) });
-                    this.getAddressFromCoordinates(this.state.location.coords.latitude,this.state.location.coords.longitude);
-                    global.location=position;
-                },
-                error => Alert.alert(error.message),
-                { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-                );
-            };
+        // findCoordinates = () => {
+        //     navigator.geolocation.getCurrentPosition(
+        //         position => {
+        //             // const location = JSON.stringify(position);
+        //             console.log(position);
+        //             this.setState({ location:(position) });
+        //             this.getAddressFromCoordinates(this.state.location.coords.latitude,this.state.location.coords.longitude);
+        //             global.location=position;
+        //         },
+        //         error => Alert.alert(error.message),
+        //         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+        //         );
+        //     };
             componentDidMount(){
-                this.findCoordinates();
+                // this.findCoordinates();
             }
             
             signMeUp(){
@@ -153,7 +153,7 @@ class MapModal extends Component {
                         <View style={[styles.bottomMenu,{backgroundColor:theme.colors.background}]}>
                         {UIElements.drawGapV(20)}
                         <View style={{flex:1,flexDirection:'row'}}>
-                        <Ionicons name={(Platform.OS === "ios" ? "ios" : "md")+"-locate"} size={30} color={theme.colors.text} />
+                        {/* <Ionicons name={(Platform.OS === "ios" ? "ios" : "md")+"-locate"} size={30} color={theme.colors.text} /> */}
                         {UIElements.drawGapH(10)}
                         
                         <View>

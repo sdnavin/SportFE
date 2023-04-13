@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Alert,View,Text, StyleSheet, SafeAreaView, TextInput, ScrollView, Dimensions } from 'react-native'
-import IonIcon from 'react-native-vector-icons/Ionicons';
+// import IonIcon from 'react-native-vector-icons/Ionicons';
 import * as UIElements from '../Tools/UIElements';
 import AppColors from '../constants/AppColors';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 const { width } = Dimensions.get('window');
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import { useTheme } from '@react-navigation/native';
@@ -51,7 +51,7 @@ class ToggleBarC extends Component {
                 </TouchableOpacity>)
             })}
             </ScrollView>
-            <MaterialIcons style={{marginLeft:-10,marginRight:-10}} name="keyboard-arrow-right" size={30} />
+            {/* <MaterialIcons style={{marginLeft:-10,marginRight:-10}} name="keyboard-arrow-right" size={30} /> */}
             </View>
             </SafeAreaView></>
             )
